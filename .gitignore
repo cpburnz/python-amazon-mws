@@ -1,0 +1,7 @@
+# Ignore compiled python files. 
+*~
+*.pyc
+*.egg-info
+build
+dist
+MANIFEST
