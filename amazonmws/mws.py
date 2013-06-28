@@ -5,7 +5,8 @@ authenticating, sending and receiving requests.
 """
 
 __created__ = "2012-11-20"
-__modified__ = "2013-03-28"
+__modified__ = "2013-06-27"
+__modified_by___ = "Joshua D. Burns"
 
 import base64
 import hashlib
