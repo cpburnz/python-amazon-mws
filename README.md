@@ -20,13 +20,13 @@ The Amazon MWS (Marketplace Web Services) API for Python
 		* [Product Relationship](#product-relationship)
 		* [Shipping Override](#shipping-override)
 		* [Webstore Item](#webstore-item)
-	* [Flat-File Feeds](#tab-separated-flat-file-feeds)
+	* [Flat-File Feeds](#flat-file-feeds)
 		* [Book](#book)
 		* [UIEE (Universal Information Exchange Environment) Book](#uiee-universal-information-exchange-environment-book)
 		* [Product Converge (Merging)](#products-converge-merging)
-		* [Product Data](#product-data)
-		* [Product Inventory](#product-inventory)
-		* [Product Pricing and Quantities](#product-pricing-and-inventory)
+		* [Product Data](#product-data-1)
+		* [Product Inventory](#product-inventory-1)
+		* [Product Pricing and Quantities](#product-pricing--inventory)
 * [Orders](#orders)
 * [Products](#products)
 * [Reports](#reports)
@@ -37,6 +37,27 @@ The Amazon MWS (Marketplace Web Services) API for Python
 Push data in bulk to your Amazon Marketplace(s) through XML data structures or tab-delimited flat-files.
 
 > #### XML Feeds
+>> All feeds are submitted through a common interface.
+>> 
+>> In all examples within this section, prepend the following code:
+>> ```python
+>> import amazonmws.mws
+>> import amazonmws.feeds
+>> import BeautifulSoup # Used to parse XML response
+>> 
+>> # Specify your AWS authentication credentials:
+>> ACCESS_KEY  = 'your-access-key'
+>> SECRET_KEY  = 'your-secret-key'
+>> MERCHANT_ID = 'your-merchant-id'
+>>
+# Specify the endpoint the feed will be submitted to. May be the name of an
+# endpoint, or an actual URL. Valid endpoints names include:
+#	- ca, cn, eu, in, jp, us.
+>> ENDPOINT = 'us' # must be a string
+>> 
+>> # Instantiate the feeds object
+>> feed = amazonmws.feeds.MWSFeeds(ACCESS_KEY, SECRET_KEY, MERCHANT_ID, ENDPOINT)
+>> ```
 >> ##### Offers
 >>> TODO: Overview and examples
 
@@ -50,21 +71,7 @@ Push data in bulk to your Amazon Marketplace(s) through XML data structures or t
 >>> TODO: Overview and examples
 
 >> ##### Product Data
->>> ```python
->>> import amazonmws.
->>>	import amazonmws.feeds
->>> import BeautifulSoup # Used to parse resulting XML
->>>	
->>>	ACCESS_KEY   = 'your-access-key'
->>>	SECRET_KEY   = 'your-secret-key'
->>>	MERCHANT_ID  = 'your-merchant-id'
->>>
->>>	# Valid values include: ca, cn, eu, in, jp, us.
->>>	# Note: Marketplaces specified must be enabled on your MWS account.
->>>	ENDPOINTS = ['us']
->>> MARKETPLACES = 
->>>
->>>	feed = amazonmws.feeds.MWSFeeds(ACCESS_KEY, SECRET_KEY, MERCHANT_ID)
+
 >>>
 >>> '''
 >>> submit_feed() accepts
@@ -96,7 +103,7 @@ Push data in bulk to your Amazon Marketplace(s) through XML data structures or t
 >> ##### Webstore Item
 >>> TODO: Overview and examples
 
-> #### Tab-Separated Flat File Feeds
+> #### Flat-File Feeds
 >>##### Book
 >>> TODO: Overview and examples
 
