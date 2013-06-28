@@ -17,8 +17,8 @@ from amazonmws.util import datetime_to_iso8601, encode_string, is_sequence, mark
 
 #: Feed types.
 FEED_TYPES = {
-	# XML
-	'offer_only':             '_POST_OFFER_ONLY_DATA_',                             # Offer
+	# XML Feeds
+	'offer':                  '_POST_OFFER_ONLY_DATA_',                             # Offer
 	'order_acknowledgement':  '_POST_ORDER_ACKNOWLEDGEMENT_DATA_',                  # Order
 	'order_cancellation':     '_POST_FULFILLMENT_ORDER_CANCELLATION_REQUEST_DATA_', # Order
 	'order_fulfillment':      '_POST_ORDER_FULFILLMENT_DATA_',                      # Order
@@ -31,10 +31,10 @@ FEED_TYPES = {
 	'product_relationship':   '_POST_PRODUCT_RELATIONSHIP_DATA_',                   # Product
 	'shipping_override':      '_POST_SHIPPING_OVERRIDE_DATA_',                      # Shipping
 	'webstore_item':          '_POST_WEBSTORE_ITEM_DATA_',                          # Webstore
-	# Flat-File
+	# Flat-File Feeds
 	'flat_book':              '_POST_FLAT_FILE_BOOKLOADER_DATA_',                   # Book
 	'flat_book_uiee':         '_POST_UIEE_BOOKLOADER_DATA_',                        # Book: Universal Information Exchange Environment
-	'flat_product_converge':  '_POST_FLAT_FILE_CONVERGENCE_LISTINGS_DATA_',         # Product
+	'flat_product_converge':  '_POST_FLAT_FILE_CONVERGENCE_LISTINGS_DATA_',         # Product: Merging
 	'flat_product_data':      '_POST_FLAT_FILE_LISTINGS_DATA_',                     # Product
 	'flat_product_inventory': '_POST_FLAT_FILE_INVLOADER_DATA_',                    # Product
 	'flat_product_price_inv': '_POST_FLAT_FILE_PRICEANDQUANTITYONLY_UPDATE_DATA_',  # Product
