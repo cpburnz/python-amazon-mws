@@ -7,25 +7,26 @@ The Amazon MWS (Marketplace Web Services) API for Python
 ### Table of Contents
 * [Feeds](#feeds)
 	* [XML Feeds](#xml-feeds)
+		* [Offers](#offers)
+		* [Order Acknowledgement](#order-acknowledgement)
+		* [Order Cancellation](#order-cancellation)
+		* [Order Fulfillment](#order-fulfillment)
 		* [Product Data](#product-data)
 		* [Product Image](#product-image)
+		* [Product Inventory](#product-inventory)
 		* [Product Item](#product-item)
-		* [Product Inventory Quantity](#product-inventory-quantity)
+		* [Product Override](#product-override)
 		* [Product Pricing](#product-pricing)
 		* [Product Relationship](#product-relationship)
-		* [Order Acknowledgement](#order-acknowledgement)
-		* [Order Fulfillment](#order-fulfillment)
-		* [Offers](#offers)
+		* [Shipping Override](#shipping-override)
 		* [Webstore Item](#webstore-item)
-		* [Override Product](#override-product)
-		* [Override Shipping](#override-shipping)
-	* [Tab-Separated Flat File Feeds](#tab-separated-flat-file-feeds)
-		* [Product Listings](#product-listings)
-		* [Product Inventory Quantities](#product-inventory-quantities)
-		* [Product Pricing and Quantities](#product-pricing-and-quantities)
-		* [Products Convergance (Merging)](#products-convergance-merging)
+	* [Flat-File Feeds](#tab-separated-flat-file-feeds)
 		* [Book](#book)
 		* [UIEE (Universal Information Exchange Environment) Book](#uiee-universal-information-exchange-environment-book)
+		* [Product Converge (Merging)](#products-converge-merging)
+		* [Product Data](#product-data)
+		* [Product Inventory](#product-inventory)
+		* [Product Pricing and Quantities](#product-pricing-and-inventory)
 * [Orders](#orders)
 * [Products](#products)
 * [Reports](#reports)
@@ -36,16 +37,51 @@ The Amazon MWS (Marketplace Web Services) API for Python
 Push data in bulk to your Amazon Marketplace(s) through XML data structures or tab-delimited flat-files.
 
 > #### XML Feeds
->> ##### Product Data
+>> ##### Offers
 >>> TODO: Overview and examples
 
+>> ##### Order Acknowledgement
+>>> TODO: Overview and examples
+
+>> ##### Order Cancellation
+>>> TODO: Overview and examples
+
+>> ##### Order Fulfillment
+>>> TODO: Overview and examples
+
+>> ##### Product Data
+>>> ```python
+>>> import amazonmws.
+>>>	import amazonmws.feeds
+>>> import BeautifulSoup # Used to parse resulting XML
+>>>	
+>>>	ACCESS_KEY   = 'your-access-key'
+>>>	SECRET_KEY   = 'your-secret-key'
+>>>	MERCHANT_ID  = 'your-merchant-id'
+>>>
+>>>	# Valid values include: ca, cn, eu, in, jp, us.
+>>>	# Note: Marketplaces specified must be enabled on your MWS account.
+>>>	ENDPOINTS = ['us']
+>>> MARKETPLACES = 
+>>>
+>>>	feed = amazonmws.feeds.MWSFeeds(ACCESS_KEY, SECRET_KEY, MERCHANT_ID)
+>>>
+>>> '''
+>>> submit_feed() accepts
+>>> '''
+>>> submit_result = feed.submit_feed()
+>>> ```
+
 >> ##### Product Image
+>>> TODO: Overview and examples
+
+>> ##### Product Inventory
 >>> TODO: Overview and examples
 
 >> ##### Product Item
 >>> TODO: Overview and examples
 
->> ##### Product Inventory Quantity
+>> ##### Product Override
 >>> TODO: Overview and examples
 
 >> ##### Product Pricing
@@ -54,41 +90,29 @@ Push data in bulk to your Amazon Marketplace(s) through XML data structures or t
 >> ##### Product Relationship
 >>> TODO: Overview and examples
 
->> ##### Order Acknowledgement
->>> TODO: Overview and examples
-
->> ##### Order Fulfillment
->>> TODO: Overview and examples
-
->> ##### Offers
+>> ##### Shipping Override
 >>> TODO: Overview and examples
 
 >> ##### Webstore Item
 >>> TODO: Overview and examples
 
->> ##### Override Product
->>> TODO: Overview and examples
-
->> ##### Override Shipping
->>> TODO: Overview and examples
-
 > #### Tab-Separated Flat File Feeds
->> ##### Product Listings
->>> TODO: Overview and examples
-
->> ##### Product Inventory Quantities
->>> TODO: Overview and examples
-
->> ##### Product Pricing & Inventory Quantities
->>> TODO: Overview and examples
-
->> ##### Products Convergance (Merging)
->>> TODO: Overview and examples
-
 >>##### Book
 >>> TODO: Overview and examples
 
 >> ##### UIEE (Universal Information Exchange Environment) Book
+>>> TODO: Overview and examples
+
+>> ##### Products Converge (Merging)
+>>> TODO: Overview and examples
+
+>> ##### Product Data
+>>> TODO: Overview and examples
+
+>> ##### Product Inventory
+>>> TODO: Overview and examples
+
+>> ##### Product Pricing & Inventory
 >>> TODO: Overview and examples
 
 ### Orders
