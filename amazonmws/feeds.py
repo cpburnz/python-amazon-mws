@@ -40,6 +40,59 @@ FEED_TYPES = {
 	'flat_product_price_inv': '_POST_FLAT_FILE_PRICEANDQUANTITYONLY_UPDATE_DATA_',  # Product
 }
 
+#: Feed Methods. Maps FEED_TYPES to data-types
+FEED_METHODS = {
+	'offer':                  'xml',
+	'order_acknowledgement':  'xml',
+	'order_cancellation':     'xml',
+	'order_fulfillment':      'xml',
+	'product_data':           'xml',
+	'product_image':          'xml',
+	'product_inventory':      'xml',
+	'product_item':           'xml',
+	'product_override':       'xml',
+	'product_pricing':        'xml',
+	'product_relationship':   'xml',
+	'shipping_override':      'xml',
+	'webstore_item':          'xml',
+	'flat_book':              'flat-file',
+	'flat_book_uiee':         'flat-file',
+	'flat_product_converge':  'flat-file',
+	'flat_product_data':      'flat-file',
+	'flat_product_inventory': 'flat-file',
+	'flat_product_price_inv': 'flat-file',
+}
+
+#: Content types. Key is ENDPOINT aliased name. Maps FEED_TYPE, FEED_METHOD and ENTPOINT to content-type.
+CONTENT_TYPES = {
+	'ca': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
+	'cn': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=UTF-8',
+		# TODO: How should we account for two separate encodings belonging to a single ENDPOINT?
+		'flat-file-alt': 'text/tab-separated-values; charset=UTF-16',
+	},
+	'eu': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
+	'in': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1', # Guess, need to verify.
+	},
+	'jp': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=Shift_JIS',
+	},
+	'us': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
+}
+
 #: Processing statuses..
 PROCESSING_STATUSES = {
 	'cancelled': '_CANCELLED_',
