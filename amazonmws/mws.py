@@ -26,15 +26,10 @@ from amazonmws.util import is_sequence
 ENDPOINTS = {
 	'ca': 'https://mws.amazonservices.ca',     # Canada
 	'cn': 'https://mws.amazonservices.com.cn', # China
+	'eu': 'https://mws-eu.amazonservices.com', # Europe (Germany, Spain, France, Italy, United Kingdom)
 	'in': 'https://mws.amazonservices.in',     # India
 	'jp': 'https://mws.amazonservices.jp',     # Japan
 	'us': 'https://mws.amazonservices.com',    # United States
-	# Europe
-	'de': 'https://mws-eu.amazonservices.com', # Germany
-	'es': 'https://mws-eu.amazonservices.com', # Spain
-	'fr': 'https://mws-eu.amazonservices.com', # France
-	'it': 'https://mws-eu.amazonservices.com', # Italy
-	'uk': 'https://mws-eu.amazonservices.com', # United Kingdom)
 }
 
 #: Marketplace IDs
