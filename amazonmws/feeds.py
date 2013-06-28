@@ -7,8 +7,8 @@ feeds.
 
 __author__ = "Caleb P. Burns"
 __created__ = "2012-11-26"
-__modified__ = "2013-03-28"
-__status__ = "Development"
+__modified__ = "2013-06-27"
+__modified_by___ = "Joshua D. Burns"
 
 import datetime
 
@@ -17,14 +17,27 @@ from amazonmws.util import datetime_to_iso8601, encode_string, is_sequence, mark
 
 #: Feed types.
 FEED_TYPES = {
-	'product_data': '_POST_PRODUCT_DATA_',
-	'product_image': '_POST_PRODUCT_IMAGE_DATA_',
-	'product_item': '_POST_ITEM_DATA_',
-	'product_inventory': '_POST_INVENTORY_AVAILABILITY_DATA_',
-	'product_pricing': '_POST_PRODUCT_PRICING_DATA_',
-	'product_relationship': '_POST_PRODUCT_RELATIONSHIP_DATA_',
-	'order_acknowledgement': '_POST_ORDER_ACKNOWLEDGEMENT_DATA_',
-	'order_fulfillment': '_POST_ORDER_FULFILLMENT_DATA_'
+	# XML
+	'offer_only':             '_POST_OFFER_ONLY_DATA_',                             # Offer
+	'order_acknowledgement':  '_POST_ORDER_ACKNOWLEDGEMENT_DATA_',                  # Order
+	'order_cancellation':     '_POST_FULFILLMENT_ORDER_CANCELLATION_REQUEST_DATA_', # Order
+	'order_fulfillment':      '_POST_ORDER_FULFILLMENT_DATA_',                      # Order
+	'product_data':           '_POST_PRODUCT_DATA_',                                # Product
+	'product_image':          '_POST_PRODUCT_IMAGE_DATA_',                          # Product
+	'product_inventory':      '_POST_INVENTORY_AVAILABILITY_DATA_',                 # Product
+	'product_item':           '_POST_ITEM_DATA_',                                   # Product
+	'product_override':       '_POST_PRODUCT_OVERRIDES_DATA_',                      # Product
+	'product_pricing':        '_POST_PRODUCT_PRICING_DATA_',                        # Product
+	'product_relationship':   '_POST_PRODUCT_RELATIONSHIP_DATA_',                   # Product
+	'shipping_override':      '_POST_SHIPPING_OVERRIDE_DATA_',                      # Shipping
+	'webstore_item':          '_POST_WEBSTORE_ITEM_DATA_',                          # Webstore
+	# Flat-File
+	'flat_book':              '_POST_FLAT_FILE_BOOKLOADER_DATA_',                   # Book
+	'flat_book_uiee':         '_POST_UIEE_BOOKLOADER_DATA_',                        # Book: Universal Information Exchange Environment
+	'flat_product_converge':  '_POST_FLAT_FILE_CONVERGENCE_LISTINGS_DATA_',         # Product
+	'flat_product_data':      '_POST_FLAT_FILE_LISTINGS_DATA_',                     # Product
+	'flat_product_inventory': '_POST_FLAT_FILE_INVLOADER_DATA_',                    # Product
+	'flat_product_price_inv': '_POST_FLAT_FILE_PRICEANDQUANTITYONLY_UPDATE_DATA_',  # Product
 }
 
 #: Processing statuses..
