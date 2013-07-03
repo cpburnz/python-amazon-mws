@@ -288,7 +288,7 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >>>> 	<Error>
 >>>> 		<Type>Sender</Type>
 >>>> 		<Code>FeedProcessingResultNotReady</Code>
->>>> 		<Message>Feed Submission Result is not ready for Feed Submission Id: 7465486170</Message>
+>>>> 		<Message>Feed Submission Result is not ready for Feed Submission Id: 1234567890</Message>
 >>>> 		<Detail/>
 >>>> 	</Error>
 >>>> 	<RequestID>1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d</RequestID>
