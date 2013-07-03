@@ -291,7 +291,7 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >>>> 		<Message>Feed Submission Result is not ready for Feed Submission Id: 7465486170</Message>
 >>>> 		<Detail/>
 >>>> 	</Error>
->>>> 	<RequestID>8d8034f0-6cda-468d-b414-e7ac390de8dd</RequestID>
+>>>> 	<RequestID>1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d</RequestID>
 >>>> </ErrorResponse>
 >>>> ```
 >>> 
@@ -304,10 +304,10 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >>>> 	<Error>
 >>>> 		<Type>Sender</Type>
 >>>> 		<Code>InvalidFeedSubmissionId</Code>
->>>> 		<Message>Failed to find feed with Feed Submission ID: 746536170</Message>
+>>>> 		<Message>Failed to find feed with Feed Submission ID: 123456789</Message>
 >>>> 		<Detail/>
 >>>> 	</Error>
->>>> 	<RequestID>b5edef33-caeb-4b9a-899f-e8eab761dbe7</RequestID>
+>>>> 	<RequestID>1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d</RequestID>
 >>>> </ErrorResponse>
 >>>> ```
 >>> 
@@ -320,10 +320,10 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >>>> 	<Error>
 >>>> 		<Type>Sender</Type>
 >>>> 		<Code>InvalidRequest</Code>
->>>> 		<Message>[Feed ID] failed a validation check: [Feed ID] is not a valid identifer.</Message>
+>>>> 		<Message>one4567890 failed a validation check: one4567890 is not a valid identifer.</Message>
 >>>> 		<Detail/>
 >>>> 	</Error>
->>>> 	<RequestID>55cf9c1d-c0de-4cdd-be2e-c5b6c1935fcc</RequestID>
+>>>> 	<RequestID>1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d</RequestID>
 >>>> </ErrorResponse>
 >>>> ```
 >>> 
