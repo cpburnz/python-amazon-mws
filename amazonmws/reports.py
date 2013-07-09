@@ -577,13 +577,17 @@ class MWSReports(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 	
-	def update_report_acknowledgements(self, reports, marketplaces=None, debug=None):
+	def update_report_acknowledgements(self, reports, acknowledged=None, marketplaces=None, debug=None):
 		"""
 		Updates the acknowledged status of the specified Reports.
-		
+
 		*reports* (**sequence**) is the list of Report IDs (``int``) to
 		update. The maximum number of Reports that can be specified is 100.
-		
+
+		*acknowledged* (**boolean**) is whether or not to mark the reports
+		passed as acknowledged. Default is ``None``. Amazon MWS treats the
+		absense of acknowledged by defaulting the value to True.
+
 		*marketplaces* (**sequence**) is the list of Amazon Marketplace IDs
 		(``str``). Default is ``None`` for all marketplaces.
 		"""
@@ -591,24 +595,30 @@ class MWSReports(amazonmws.mws.MWS):
 			raise TypeError("reports:{!r} is not a sequence.".format(reports))
 		elif len(reports) < 0 or 100 < len(reports):
 			raise ValueError("reports len:{!r} must be between 1 and 100 inclusive.".format(len(reports)))
-		
+
 		# Build args.
 		args = self.new_args()
 		args['Action'] = 'UpdateReportAcknowledgements'
-		args['Acknowledged'] = 'true'
-			
+
+		if acknowledged is True or acknowledged is None:
+			args['Acknowledged'] = 'true'
+		elif acknowledged is False:
+			args['Acknowledged'] = 'false'
+		elif acknowledged is not None:
+			raise TypeError("reports['acknowledged']:{!r} is not boolean.".format(acknowledged))
+
 		for i, report_id in enumerate(reports, 0):
 			if not isinstance(report_id, basestring):
 				raise TypeError("reports[{}]:{!r} is not a string.".format(i, report_id))
 			elif not report_id:
 				raise ValueError("reports[{}]:{!r} cannot be empty.".format(i, report_id))
 			report_id = encode_string(report_id, 'ASCII', name="reports[{}]".format(i))
-			
+
 			args['ReportIdList.Id.{}'.format(i+1)] = report_id
-			
+
 		if marketplaces is not None:
 			args.update(marketplace_args(marketplaces, name='marketplaces'))
-		
+
 		# Send Request.
 		return self.send_request(args, debug=debug)
 		
