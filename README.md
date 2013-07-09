@@ -146,27 +146,66 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >> 
 >> ##### cancel_submissions
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * submissions (Feeds: Common Arguments)
+>>> * feed_types (Feeds: Common Arguments)
+>>> * from_date (Common Arguments)
+>>> * to_date (Common Arguments)
+>>> * all_submissions (Specific Argument)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### count_submissions
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * feed_types (Feeds: Common Arguments)
+>>> * statuses (Feeds: Common Arguments)
+>>> * from_date (Common Arguments)
+>>> * to_date (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * submission_id (Specific Argument)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### list_submissions
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * submissions (Feeds: Common Arguments)
+>>> * count (Specific Argument)
+>>> * feed_types (Feeds: Common Arguments)
+>>> * statuses (Feeds: Common Arguments)
+>>> * from_date (Common Arguments)
+>>> * to_date (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### list_submissions_next
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * next_token (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### submit_feed
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * feed_type (Specific Argument)
+>>> * data (Specific Argument)
+>>> * content_type (Specific Argument)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 
 ### Fulfillment
 > 
@@ -233,15 +272,28 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >> 
 >> ##### list_orders
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * created_after (Specific Argument)
+>>> * updated_after (Specific Argument)
+>>> * order_statuses (Specific Argument)
+>>> * marketplaces (Common Arguments)
+>>> 
 >> 
 >> ##### list_orders_next
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * next_token (Common Arguments)
+>>> 
 >> 
 >> ##### send_request
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * action (Specific Argument)
+>>> * args_dict (Specific Argument)
+>>> 
 
 ### Products
 > 
@@ -273,27 +325,66 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >> 
 >> ##### get_categories
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * marketplace_id (Products: Common Arguments)
+>>> * id_type (Products: Common Arguments)
+>>> * id_list (Products: Common Arguments)
+>>> * verbose (Products: Common Arguments)
+>>> 
 >> 
 >> ##### get_competitive_pricing
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * marketplace_id (Products: Common Arguments)
+>>> * id_type (Products: Common Arguments)
+>>> * id_list (Products: Common Arguments)
+>>> * verbose (Products: Common Arguments)
+>>> 
 >> 
 >> ##### get_lowest_listings
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * marketplace_id (Products: Common Arguments)
+>>> * id_type (Products: Common Arguments)
+>>> * id_list (Products: Common Arguments)
+>>> * condition (Products: Common Arguments)
+>>> * exclude_me (Specific Argument)
+>>> * verbose (Products: Common Arguments)
+>>> 
 >> 
 >> ##### get_my_price
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * marketplace_id (Products: Common Arguments)
+>>> * id_type (Products: Common Arguments)
+>>> * id_list (Products: Common Arguments)
+>>> * condition (Products: Common Arguments)
+>>> * verbose (Products: Common Arguments)
+>>> 
 >> 
 >> ##### get_products
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * marketplace_id (Products: Common Arguments)
+>>> * id_type (Products: Common Arguments)
+>>> * id_list (Products: Common Arguments)
+>>> * verbose (Products: Common Arguments)
+>>> 
 >> 
 >> ##### list_matching
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * marketplace_id (Products: Common Arguments)
+>>> * query (Specific Argument)
+>>> * context (Specific Argument)
+>>> * verbose (Products: Common Arguments)
+>>> 
 
 ### Recommendations
 > 
@@ -339,59 +430,130 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >> 
 >> ##### cancel_report_requests
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * requests (Reports: Common Arguments)
+>>> * report_types (Reports: Common Arguments)
+>>> * statuses (Reports: Common Arguments)
+>>> * from_date (Common Arguments)
+>>> * to_date (Common Arguments)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * report_id (Specific Argument)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report_count
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * report_types (Reports: Common Arguments)
+>>> * acknowledged (Reports: Common Arguments)
+>>> * from_date (Common Arguments)
+>>> * to_date (Common Arguments)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report_list
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * requests (Reports: Common Arguments)
+>>> * max_count (Reports: Common Arguments)
+>>> * report_types (Reports: Common Arguments)
+>>> * acknowledged (Reports: Common Arguments)
+>>> * from_date (Common Arguments)
+>>> * to_date (Common Arguments)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report_list_next
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * next_token (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report_request_count
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * report_types (Reports: Common Arguments)
+>>> * statuses (Reports: Common Arguments)
+>>> * from_date (Common Arguments)
+>>> * to_date (Common Arguments)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report_request_list
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * requests (Reports: Common Arguments)
+>>> * max_count (Reports: Common Arguments)
+>>> * report_types (Reports: Common Arguments)
+>>> * statuses (Reports: Common Arguments)
+>>> * from_date (Common Arguments)
+>>> * to_date (Common Arguments)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report_request_list_next
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * next_token (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### get_report_schedule_count
 >> 
->>> TODO: Add documentation/examples.
+>>> Not yet implemented within this API.
 >> 
 >> ##### get_report_schedule_list
 >> 
->>> TODO: Add documentation/examples.
+>>> Not yet implemented within this API.
 >> 
 >> ##### get_report_schedule_list_next
 >> 
->>> TODO: Add documentation/examples.
+>>> Not yet implemented within this API.
 >> 
 >> ##### manage_report_schedule
 >> 
->>> TODO: Add documentation/examples.
+>>> Not yet implemented within this API.
 >> 
 >> ##### request_report
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * report_type (Specific Argument)
+>>> * start_date (Specific Argument)
+>>> * end_date (Specific Argument)
+>>> * show_sales_channel (Specific Argument)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### update_report_acknowledgements
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * reports (Specific Argument)
+>>> * marketplaces (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
 
 ### Sellers
 > #### Seller Calls
@@ -399,12 +561,22 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >> 
 >> ##### get_status
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### list_marketplaces
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * debug (Common Arguments)
+>>> 
 >> 
 >> ##### list_marketplaces_next
 >> 
->>> TODO: Add documentation/examples.
+>>> 
+>>> **Arguments**
+>>> * next_token (Common Arguments)
+>>> * debug (Common Arguments)
+>>> 
