@@ -4,7 +4,8 @@ This module provides an implementation of the Amazon MWS Reports API.
 """
 
 __created__ = "2012-12-31"
-__modified__ = "2013-03-25"
+__modified__ = "2013-07-08"
+__modified_by__ = "Joshua D. Burns
 
 import datetime
 
@@ -603,7 +604,7 @@ class MWSReports(amazonmws.mws.MWS):
 				raise ValueError("reports[{}]:{!r} cannot be empty.".format(i, report_id))
 			report_id = encode_string(report_id, 'ASCII', name="reports[{}]".format(i))
 			
-			args['ReportIdList.Id.{}'.format(report_id)] = report_id
+			args['ReportIdList.Id.{}'.format(i+1)] = report_id
 			
 		if marketplaces is not None:
 			args.update(marketplace_args(marketplaces, name='marketplaces'))
