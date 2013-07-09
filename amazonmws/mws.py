@@ -738,6 +738,12 @@ class MWSAgent(IMWSAgent):
 
 	def sort_args_key(self, key):
 		"""
+
+		NOTE: This method is deprecated. Amazon MWS expects sorting in
+		      natural BYTE ORDER, not natural-order. By sorting by
+		      natural order, when IDs over a value of 9 are encountered,
+			MWS complains about a bad signature.
+
 		This is used by *self.build_request()* to sort arguments. This
 		implementation performs a natural sort so that when query arguments
 		named in the style "{full_name}.{short_name}.{n}" are ordered
@@ -747,7 +753,18 @@ class MWSAgent(IMWSAgent):
 
 		Returns the key (``object``) to use to sort by.
 		"""
-		return [int(s) if s.isdigit() else s for s in self.sort_args_re.findall(key[0])]
+		return key
+
+		# If sending more than 10 Report IDs to
+		# UpdateReportAcknowledgements, Amazon MWS gives an error stating
+		# that the signature does not match. If sending 9, it works just
+		# fine. We have deducted that Amazon is not performing a natural
+		# sort on at *least* UpdateReportAcknowledgements Report IDs.
+		# We need to test other methods which support more than 10 IDs being
+		# passed to determine if this is a Call-specific limitation, or if
+		# across the board all sorting should be done the default "python"
+		# way.
+		#return [int(s) if s.isdigit() else s for s in self.sort_args_re.findall(key[0])] # Natural sort
 
 
 class SignatureError(Exception):
