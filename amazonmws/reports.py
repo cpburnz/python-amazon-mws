@@ -4,7 +4,7 @@ This module provides an implementation of the Amazon MWS Reports API.
 """
 
 __created__ = "2012-12-31"
-__modified__ = "2013-07-08"
+__modified__ = "2013-07-09"
 __modified_by__ = "Joshua D. Burns
 
 import datetime
