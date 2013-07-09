@@ -600,21 +600,21 @@ class MWSReports(amazonmws.mws.MWS):
 		args = self.new_args()
 		args['Action'] = 'UpdateReportAcknowledgements'
 
-		if acknowledged is True or acknowledged is None:
+		if acknowledged is True:
 			args['Acknowledged'] = 'true'
 		elif acknowledged is False:
 			args['Acknowledged'] = 'false'
 		elif acknowledged is not None:
 			raise TypeError("reports['acknowledged']:{!r} is not boolean.".format(acknowledged))
 
-		for i, report_id in enumerate(reports, 0):
+		for i, report_id in enumerate(reports, 1):
 			if not isinstance(report_id, basestring):
 				raise TypeError("reports[{}]:{!r} is not a string.".format(i, report_id))
 			elif not report_id:
 				raise ValueError("reports[{}]:{!r} cannot be empty.".format(i, report_id))
 			report_id = encode_string(report_id, 'ASCII', name="reports[{}]".format(i))
 
-			args['ReportIdList.Id.{}'.format(i+1)] = report_id
+			args['ReportIdList.Id.{}'.format(i)] = report_id
 
 		if marketplaces is not None:
 			args.update(marketplace_args(marketplaces, name='marketplaces'))
