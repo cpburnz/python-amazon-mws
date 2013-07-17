@@ -7,8 +7,8 @@ feeds.
 
 __author__ = "Caleb P. Burns"
 __created__ = "2012-11-26"
-__modified__ = "2013-03-28"
-__status__ = "Development"
+__modified__ = "2013-06-27"
+__modified_by___ = "Joshua D. Burns"
 
 import datetime
 
@@ -17,14 +17,80 @@ from amazonmws.util import datetime_to_iso8601, encode_string, is_sequence, mark
 
 #: Feed types.
 FEED_TYPES = {
-	'product_data': '_POST_PRODUCT_DATA_',
-	'product_image': '_POST_PRODUCT_IMAGE_DATA_',
-	'product_item': '_POST_ITEM_DATA_',
-	'product_inventory': '_POST_INVENTORY_AVAILABILITY_DATA_',
-	'product_pricing': '_POST_PRODUCT_PRICING_DATA_',
-	'product_relationship': '_POST_PRODUCT_RELATIONSHIP_DATA_',
-	'order_acknowledgement': '_POST_ORDER_ACKNOWLEDGEMENT_DATA_',
-	'order_fulfillment': '_POST_ORDER_FULFILLMENT_DATA_'
+	# XML Feeds
+	'offer':                  '_POST_OFFER_ONLY_DATA_',                             # Offer
+	'order_acknowledgement':  '_POST_ORDER_ACKNOWLEDGEMENT_DATA_',                  # Order
+	'order_cancellation':     '_POST_FULFILLMENT_ORDER_CANCELLATION_REQUEST_DATA_', # Order
+	'order_fulfillment':      '_POST_ORDER_FULFILLMENT_DATA_',                      # Order
+	'product_data':           '_POST_PRODUCT_DATA_',                                # Product
+	'product_image':          '_POST_PRODUCT_IMAGE_DATA_',                          # Product
+	'product_inventory':      '_POST_INVENTORY_AVAILABILITY_DATA_',                 # Product
+	'product_item':           '_POST_ITEM_DATA_',                                   # Product
+	'product_override':       '_POST_PRODUCT_OVERRIDES_DATA_',                      # Product
+	'product_pricing':        '_POST_PRODUCT_PRICING_DATA_',                        # Product
+	'product_relationship':   '_POST_PRODUCT_RELATIONSHIP_DATA_',                   # Product
+	'shipping_override':      '_POST_SHIPPING_OVERRIDE_DATA_',                      # Shipping
+	'webstore_item':          '_POST_WEBSTORE_ITEM_DATA_',                          # Webstore
+	# Flat-File Feeds
+	'flat_book':              '_POST_FLAT_FILE_BOOKLOADER_DATA_',                   # Book
+	'flat_book_uiee':         '_POST_UIEE_BOOKLOADER_DATA_',                        # Book: Universal Information Exchange Environment
+	'flat_product_converge':  '_POST_FLAT_FILE_CONVERGENCE_LISTINGS_DATA_',         # Product: Merging
+	'flat_product_data':      '_POST_FLAT_FILE_LISTINGS_DATA_',                     # Product
+	'flat_product_inventory': '_POST_FLAT_FILE_INVLOADER_DATA_',                    # Product
+	'flat_product_price_inv': '_POST_FLAT_FILE_PRICEANDQUANTITYONLY_UPDATE_DATA_',  # Product
+}
+
+#: Feed Methods. Maps FEED_TYPES to data-types
+FEED_METHODS = {
+	'offer':                  'xml',
+	'order_acknowledgement':  'xml',
+	'order_cancellation':     'xml',
+	'order_fulfillment':      'xml',
+	'product_data':           'xml',
+	'product_image':          'xml',
+	'product_inventory':      'xml',
+	'product_item':           'xml',
+	'product_override':       'xml',
+	'product_pricing':        'xml',
+	'product_relationship':   'xml',
+	'shipping_override':      'xml',
+	'webstore_item':          'xml',
+	'flat_book':              'flat-file',
+	'flat_book_uiee':         'flat-file',
+	'flat_product_converge':  'flat-file',
+	'flat_product_data':      'flat-file',
+	'flat_product_inventory': 'flat-file',
+	'flat_product_price_inv': 'flat-file',
+}
+
+#: Content types. Key is ENDPOINT aliased name. Maps FEED_TYPE, FEED_METHOD and ENTPOINT to content-type.
+CONTENT_TYPES = {
+	'ca': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
+	'cn': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=UTF-8',
+		# TODO: How should we account for two separate encodings belonging to a single ENDPOINT?
+		'flat-file-alt': 'text/tab-separated-values; charset=UTF-16',
+	},
+	'eu': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
+	'in': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1', # Guess, need to verify.
+	},
+	'jp': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=Shift_JIS',
+	},
+	'us': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
 }
 
 #: Processing statuses..

@@ -5,7 +5,8 @@ authenticating, sending and receiving requests.
 """
 
 __created__ = "2012-11-20"
-__modified__ = "2013-03-28"
+__modified__ = "2013-06-27"
+__modified_by___ = "Joshua D. Burns"
 
 import base64
 import hashlib
@@ -21,14 +22,29 @@ import urlparse
 from amazonmws import __version__
 from amazonmws.util import is_sequence
 
-#: Amazon MWS Endpoints
+#: MWS API Endpoints
 ENDPOINTS = {
-	'ca': "https://mws.amazonservices.ca",
-	'cn': "https://mws.amazonservices.com.cn",
-	'eu': "https://mws-eu.amazonservices.com",
-	'in': "https://mws.amazonservices.in",
-	'jp': "https://mws.amazonservices.jp",
-	'us': "https://mws.amazonservices.com"
+	'ca': 'https://mws.amazonservices.ca',     # Canada
+	'cn': 'https://mws.amazonservices.com.cn', # China
+	'eu': 'https://mws-eu.amazonservices.com', # Europe (Germany, Spain, France, Italy, United Kingdom)
+	'in': 'https://mws.amazonservices.in',     # India
+	'jp': 'https://mws.amazonservices.jp',     # Japan
+	'us': 'https://mws.amazonservices.com',    # United States
+}
+
+#: Marketplace IDs
+MARKETPLACE_IDS = {
+	'ca': 'A2EUQ1WTGCTBG2', # Canada
+	'cn': 'AAHKV2X7AFYLW',  # China
+	'in': 'A21TJRUUN4KGV',  # India
+	'jp': 'A1VC38T7YXB528', # Japan
+	'us': 'ATVPDKIKX0DER',  # United States
+	# Europe
+	'de': 'A1PA6795UKMFR9', # Germany
+	'es': 'A1RKKUPIHCS9HS', # Spain
+	'fr': 'A13V1IB3VIYZZH', # France
+	'it': 'APJ6JRA9NG5V4',  # Italy
+	'uk': 'A1F83G8C2ARO7P', # United Kingdom
 }
 
 #: Envelope message types.
@@ -296,8 +312,16 @@ class MWS(object):
 		   responsible for calling ``close()`` on it).
 
 		*content_type* (``str``) is the content type of *body*. This must be
-		set if *body* is set. This is usually "text/xml". Default is
-		``None`` because *body* is ``None``.
+		set if *body* is set. If passing a Feed Type of XML, you will most
+		likely want to set this to "text/XML". If feeding a Flat File,
+		you'll need to specify one of the following, based on marketplace:
+		- North America and Europe (US, France, Germany, Italy, Spain, UK):
+			"text/tab-separated-values; charset=iso-8859-1"
+		- Japan: "text/tab-separated-values; charset=Shift_JIS"
+		- China: "text/tab-separated-values;charset=UTF-8"
+		           OR ...
+		         "text/tab-separated-values;charset=UTF-16"
+		Default is ``None`` because *body* is ``None``.
 
 		*path* (``str``) is the URL path to request. Default is ``None`` for
 		"/". This is "/" for most of the Amazon MWS API.
@@ -714,6 +738,12 @@ class MWSAgent(IMWSAgent):
 
 	def sort_args_key(self, key):
 		"""
+
+		NOTE: This method is deprecated. Amazon MWS expects sorting in
+		      natural BYTE ORDER, not natural-order. By sorting by
+		      natural order, when IDs over a value of 9 are encountered,
+			MWS complains about a bad signature.
+
 		This is used by *self.build_request()* to sort arguments. This
 		implementation performs a natural sort so that when query arguments
 		named in the style "{full_name}.{short_name}.{n}" are ordered
@@ -723,7 +753,18 @@ class MWSAgent(IMWSAgent):
 
 		Returns the key (``object``) to use to sort by.
 		"""
-		return [int(s) if s.isdigit() else s for s in self.sort_args_re.findall(key[0])]
+		return key
+
+		# If sending more than 10 Report IDs to
+		# UpdateReportAcknowledgements, Amazon MWS gives an error stating
+		# that the signature does not match. If sending 9, it works just
+		# fine. We have deducted that Amazon is not performing a natural
+		# sort on at *least* UpdateReportAcknowledgements Report IDs.
+		# We need to test other methods which support more than 10 IDs being
+		# passed to determine if this is a Call-specific limitation, or if
+		# across the board all sorting should be done the default "python"
+		# way.
+		#return [int(s) if s.isdigit() else s for s in self.sort_args_re.findall(key[0])] # Natural sort
 
 
 class SignatureError(Exception):
