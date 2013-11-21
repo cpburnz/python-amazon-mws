@@ -580,3 +580,7 @@ A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
 >>> * next_token (Common Arguments)
 >>> * debug (Common Arguments)
 >>> 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cpburnz/python-amazon-mws/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
