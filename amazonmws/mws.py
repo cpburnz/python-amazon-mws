@@ -594,30 +594,30 @@ class MWSAgent(IMWSAgent):
 		# Debug info.
 		if debug:
 			if debug.get('url', False):
-				print "URL ({}:{})".format(url.__class__.__name__, len(url))
-				print "--------"
-				print url
-				print "--------"
+				print("URL ({}:{})".format(url.__class__.__name__, len(url)))
+				print("--------")
+				print(url)
+				print("--------")
 			if debug.get('info', False):
-				print "Args ({})".format(len(args))
-				print "---------"
-				pprint.pprint(args)
-				print "---------"
-				print "Headers ({})".format(len(headers))
-				print "------------"
-				pprint.pprint(headers)
-				print "------------"
+				print("Args ({})".format(len(args)))
+				print("---------")
+				pprint.pprint(args))
+				print("---------")
+				print("Headers ({})".format(len(headers)))
+				print("------------")
+				pprint.pprint(headers))
+				print("------------")
 			if debug.get('body', False) or debug.get('info', False):
-				print "Body ({}:{})".format(body.__class__.__name__, body_len)
+				print("Body ({}:{})".format(body.__class__.__name__, body_len))
 			if debug.get('body', False):
-				print "-"*20
+				print("-"*20)
 				if body_is_file:
 					pos = body.tell()
-					print body.read()
+					print(body.read())
 					body.seek(pos, os.SEEK_SET)
 				else:
-					print body
-				print "-"*20
+					print(body)
+				print("-"*20)
 
 		return method, url, headers, body
 
