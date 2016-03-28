@@ -19,7 +19,6 @@ import sys
 import urllib
 
 if sys.version_info > (3, 0):
-        print('WOOT.')
         import urllib.request as urllib2
         import urllib.parse as urlparse
 else:
