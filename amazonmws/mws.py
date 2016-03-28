@@ -15,9 +15,16 @@ import os.path
 import platform
 import pprint
 import re
+import sys
 import urllib
-import urllib2
-import urlparse
+
+if sys.version_info > (3, 0):
+        print('WOOT.')
+        import urllib.request as urllib2
+        import urllib.parse as urlparse
+else:
+        import urllib2
+        import urlparse
 
 from amazonmws import __version__
 from amazonmws.util import is_sequence
