@@ -21,6 +21,7 @@ import urllib
 if sys.version_info > (3, 0):
         import urllib.request as urllib2
         import urllib.parse as urlparse
+        basestring = str
 else:
         import urllib2
         import urlparse
