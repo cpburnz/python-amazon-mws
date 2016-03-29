@@ -7,11 +7,11 @@ feeds.
 
 __author__ = "Caleb P. Burns"
 __created__ = "2012-11-26"
-__modified__ = "2013-06-27"
+__modified__ = "2016-03-29"
 __modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
 import datetime
-
 import amazonmws.mws
 from amazonmws.util import datetime_to_iso8601, encode_string, is_sequence, marketplace_args
 
@@ -258,7 +258,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(submission_id, basestring):
+		if not isinstance(submission_id, six.string_types):
 			raise TypeError("submission_id:{!r} is not a string.".format(submission_id))
 		elif not submission_id:
 			raise ValueError("submission_id:{!r} cannot be empty.".format(submission_id))
@@ -325,7 +325,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 			args.update(submission_args(submissions, name='submissions'))
 
 		if count is not None:
-			if not isinstance(count, (int, long)):
+			if not isinstance(count, six.integer_types):
 				raise TypeError("count:{!r} is not an integer.".format(count))
 			elif count < 1 or 100 < count :
 				raise ValueError("count:{!r} is not between 1 and 100 inclusive.".format(count))
@@ -355,7 +355,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(next_token, basestring):
+		if not isinstance(next_token, six.string_types):
 			raise TypeError("next_token:{!r} is not a string.".format(next_token))
 		elif not next_token:
 			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))
@@ -387,7 +387,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(feed_type, str):
+		if not isinstance(feed_type, six.string_types):
 			raise TypeError("feed_type:{!r} is not a str.".format(feed_type))
 		if data is None:
 			raise TypeError("data:{!r} is not a str or file.".format(data))
@@ -427,7 +427,7 @@ def feed_type_args(feed_types, name=None):
 	args = []
 	for i, feed_type in enumerate(feed_types):
 		feed_type = FEED_TYPES.get(feed_type, feed_type)
-		if not isinstance(feed_type, str):
+		if not isinstance(feed_type, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a str.".format(name, i, feed_type))
 		elif not feed_type:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, feed_type))
@@ -462,7 +462,7 @@ def status_args(statuses, name=None):
 	args = []
 	for i, status in enumerate(statuses):
 		status = PROCESSING_STATUSES.get(status, status)
-		if not isinstance(status, str):
+		if not isinstance(status, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a str.".format(name, i, status))
 		elif not status:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, status))
@@ -496,7 +496,7 @@ def submission_args(submissions, name=None):
 
 	args = []
 	for i, sub_id in enumerate(submissions):
-		if not isinstance(sub_id, basestring):
+		if not isinstance(sub_id, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a string.".format(name, i, sub_id))
 		elif not sub_id:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, sub_id))
