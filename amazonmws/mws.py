@@ -4,10 +4,12 @@ This module provides the base implementation of the Amazon MWS API for
 authenticating, sending and receiving requests.
 """
 
+__author__ = "Caleb P. Burns"
 __created__ = "2012-11-20"
-__modified__ = "2013-06-27"
+__modified__ = "2016-03-29"
 __modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
 import base64
 import hashlib
 import hmac
@@ -17,15 +19,6 @@ import pprint
 import re
 import sys
 import urllib
-
-if sys.version_info > (3, 0):
-        import urllib.request as urllib2
-        import urllib.parse as urlparse
-        basestring = str
-        unicode = str
-else:
-        import urllib2
-        import urlparse
 
 from amazonmws import __version__
 from amazonmws.util import is_sequence
@@ -252,26 +245,26 @@ class MWS(object):
 		*secret_key* (``str``) is used the secret key used sign requests.
 		"""
 
-		if not isinstance(access_key, basestring):
+		if not isinstance(access_key, six.string_types):
 			raise TypeError("access_key:{!r} must be a string.".format(access_key))
 		elif not access_key:
 			raise ValueError("access_key:{!r} cannot be empty.".format(access_key))
 		access_key = access_key.encode('ASCII')
 
-		if not isinstance(secret_key, basestring):
+		if not isinstance(secret_key, six.string_types):
 			raise TypeError("secret_key:{!r} must be a string.".format(secret_key))
 		elif not secret_key:
 			raise ValueError("secret_key:{!r} cannot be empty.".format(secret_key))
 		secret_key = secret_key.encode('ASCII')
 
 		endpoint = ENDPOINTS.get(endpoint, endpoint)
-		if not isinstance(endpoint, basestring):
+		if not isinstance(endpoint, six.string_types):
 			raise TypeError("endpoint:{!r} must be a string.".format(endpoint))
 		elif not endpoint:
 			raise ValueError("endpoint:{!r} cannot be empty.".format(endpoint))
 		endpoint = endpoint.encode('ASCII')
 
-		if not isinstance(merchant_id, basestring):
+		if not isinstance(merchant_id, six.string_types):
 			raise TypeError("merchant_id:{!r} must be a string.".format(merchant_id))
 		elif not merchant_id:
 			raise ValueError("merchant_id:{!r} cannot be empty.".format(merchant_id))
@@ -281,7 +274,7 @@ class MWS(object):
 			raise TypeError("agent:{!r} is not an IMWSAgent.".format(agent))
 
 		if user_agent is not None:
-			if not isinstance(user_agent, basestring):
+			if not isinstance(user_agent, six.string_types):
 				raise TypeError("user_agent:{!r} must be a string or None.".format(user_agent))
 			elif not user_agent:
 				raise ValueError("user_agent:{!r} cannot be empty.".format(user_agent))
@@ -293,7 +286,7 @@ class MWS(object):
 
 		self.agent = agent or MWSAgent()
 
-		self.user_agent = unicode(user_agent or self.ua_new(self.client_api_version, self.app_name, self.app_version)).encode(self.ua_enc)
+		self.user_agent = six.u(user_agent or self.ua_new(self.client_api_version, self.app_name, self.app_version)).encode(self.ua_enc)
 
 	def send_request(self, args, body=None, content_type=None, path=None, debug=None):
 		"""
@@ -526,16 +519,16 @@ class MWSAgent(IMWSAgent):
 			raise KeyError("args:{!r} cannot have key: {!r}.".format(args, reserved.pop()))
 
 		if body is not None:
-			body_is_str = isinstance(body, str)
+			body_is_str = isinstance(body, six.string_types)
 			body_is_file = callable(getattr(body, 'read', None))
 			if not body_is_str and not body_is_file:
 				raise TypeError("body:{!r} is not a str or file.".format(body))
-			if not isinstance(content_type, str):
+			if not isinstance(content_type, six.string_types):
 				raise TypeError("content_type:{!r} is not a str.".format(content_type))
 			elif not content_type:
 				raise ValueError("content_type:{!r} cannot be empty.".format(content_type))
 
-		if path is not None and not isinstance(path, str):
+		if path is not None and not isinstance(path, six.string_types):
 			raise TypeError("path:{!r} is not a str.".format(path))
 
 		# Query.
@@ -550,7 +543,7 @@ class MWSAgent(IMWSAgent):
 
 		# Signature
 		method = "GET" if body is None else "POST"
-		result = urlparse.urlparse(mws.endpoint)
+		result = six.moves.urllib.parse.urlparse(mws.endpoint)
 		domain = result.netloc or result.path
 		path = urllib.quote(os.path.normpath('/' + path.lstrip('/'))) if path else "/"
 		sig = self.sign_request(mws.secret_key, method, domain, path, query)
@@ -674,11 +667,11 @@ class MWSAgent(IMWSAgent):
 		"""
 		if callable(getattr(body, 'read', None)):
 			body = body.read()
-		request = urllib2.Request(url, data=body, headers=headers)
+		request = six.moves.urllib.request.Request(url, data=body, headers=headers)
 		try:
-			response = urllib2.urlopen(request, timeout=30)
+			response = six.moves.urllib.request.urlopen(request, timeout=30)
 			data = response.read()
-		except urllib2.HTTPError as e:
+		except six.moves.urllib.error.HTTPError as e:
 			data = e.read()
 			if not data:
 				raise
