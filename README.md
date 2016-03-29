@@ -1,6 +1,6 @@
 # python-amazon-mws
 
-A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python.
+A powerful, easy to use Amazon MWS (Marketplace Web Services) API for Python 2 and Python3.
 
 ## Documentation
 
