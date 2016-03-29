@@ -736,7 +736,7 @@ class MWSAgent(IMWSAgent):
 
 		Returns the data signature (``str``).
 		"""
-		return hmac.new(key, six.b(data), hashlib.sha256).digest()
+		return hmac.new(six.b(key), six.b(data), hashlib.sha256).digest()
 
 	def sort_args_key(self, key):
 		"""
