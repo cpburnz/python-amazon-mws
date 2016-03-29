@@ -538,14 +538,14 @@ class MWSAgent(IMWSAgent):
 		]
 		args = sorted(args, key=self.sort_args_key)
 		query = "&".join((
-			"{}={}".format(urllib.quote(str(k), self.req_args_safe_chars), urllib.quote(str(v), self.req_args_safe_chars))
+			"{}={}".format(six.moves.urllib.parse.quote(str(k), self.req_args_safe_chars), six.moves.urllib.parse.quote(str(v), self.req_args_safe_chars))
 		) for k, vals in args for v in (vals if is_sequence(vals) else [vals]))
 
 		# Signature
 		method = "GET" if body is None else "POST"
 		result = six.moves.urllib.parse.urlparse(mws.endpoint)
 		domain = result.netloc or result.path
-		path = urllib.quote(os.path.normpath('/' + path.lstrip('/'))) if path else "/"
+		path = six.moves.urllib.parse.quote(os.path.normpath('/' + path.lstrip('/'))) if path else "/"
 		sig = self.sign_request(mws.secret_key, method, domain, path, query)
 
 		# URL.
@@ -553,7 +553,7 @@ class MWSAgent(IMWSAgent):
 			host=mws.endpoint,
 			path=path,
 			query=query,
-			sig=urllib.quote(sig)
+			sig=six.moves.urllib.parse.quote(sig)
 		)
 
 		# Headers.
