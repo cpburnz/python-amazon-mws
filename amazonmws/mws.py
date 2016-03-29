@@ -621,7 +621,7 @@ class MWSAgent(IMWSAgent):
 					print(body)
 				print("-"*20)
 
-		return method, url, headers, body
+		return method, six.u(url), headers, body
 
 	def request(self, mws, path, args, body, content_type, debug=None):
 		"""
