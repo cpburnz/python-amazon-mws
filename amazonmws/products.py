@@ -8,8 +8,8 @@ __created__ = "2012-12-04"
 __modified__ = "2016-03-29"
 __modified_by___ = "Joshua D. Burns"
 
-import six # Python2/Python3 compatibility library.
 from __future__ import division
+import six # Python2/Python3 compatibility library.
 import datetime
 import amazonmws.mws
 from amazonmws.util import datetime_to_iso8601, is_sequence
