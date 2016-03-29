@@ -2,13 +2,15 @@
 """
 This module provides an implementation of the Amazon MWS Products API.
 """
-from __future__ import division
 
+__author__ = "Caleb P. Burns"
 __created__ = "2012-12-04"
-__modified__ = "2013-3-28"
+__modified__ = "2016-03-29"
+__modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
+from __future__ import division
 import datetime
-
 import amazonmws.mws
 from amazonmws.util import datetime_to_iso8601, is_sequence
 
@@ -168,17 +170,17 @@ class MWSProducts(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(marketplace_id, str):
+		if not isinstance(marketplace_id, six.string_types):
 			raise TypeError("marketplace_id:{!r} is not a str.".format(marketplace_id))
 		elif not marketplace_id:
 			raise ValueError("marketplace_id:{!r} cannot be empty.".format(marketplace_id))
 
-		if not isinstance(id_type, str):
+		if not isinstance(id_type, six.string_types):
 			raise TypeError("id_type:{!r} is not a str.".format(id_type))
 		elif not id_type:
 			raise ValueError("id_type:{!r} cannot be empty.".format(id_type))
 
-		if not isinstance(id_, str):
+		if not isinstance(id_, six.string_types):
 			raise TypeError("id_:{!r} is not a str.".format(id_))
 		elif not id_:
 			raise ValueError("id_:{!r} cannot be empty.".format(id_))
@@ -211,12 +213,12 @@ class MWSProducts(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(marketplace_id, str):
+		if not isinstance(marketplace_id, six.string_types):
 			raise TypeError("marketplace_id:{!r} is not a str.".format(marketplace_id))
 		elif not marketplace_id:
 			raise ValueError("marketplace_id:{!r} cannot be empty.".format(marketplace_id))
 
-		if not isinstance(id_type, str):
+		if not isinstance(id_type, six.string_types):
 			raise TypeError("id_type:{!r} is not a str.".format(id_type))
 		elif not id_type:
 			raise ValueError("id_type:{!r} cannot be empty.".format(id_type))
@@ -265,12 +267,12 @@ class MWSProducts(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(marketplace_id, str):
+		if not isinstance(marketplace_id, six.string_types):
 			raise TypeError("marketplace_id:{!r} is not a str.".format(marketplace_id))
 		elif not marketplace_id:
 			raise ValueError("marketplace_id:{!r} cannot be empty.".format(marketplace_id))
 
-		if not isinstance(id_type, str):
+		if not isinstance(id_type, six.string_types):
 			raise TypeError("id_type:{!r} is not a str.".format(id_type))
 		elif not id_type:
 			raise ValueError("id_type:{!r} cannot be empty.".format(id_type))
@@ -284,7 +286,7 @@ class MWSProducts(amazonmws.mws.MWS):
 
 		if condition is not None:
 			condition = ITEM_CONDITIONS.get(condition, condition)
-			if not isinstance(condition, str):
+			if not isinstance(condition, six.string_types):
 				raise TypeError("condition:{!r} is not a str.".format(condition))
 			elif not condition:
 				raise ValueError("condition:{!r} cannot be empty.".format(condition))
@@ -323,12 +325,12 @@ class MWSProducts(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(marketplace_id, str):
+		if not isinstance(marketplace_id, six.string_types):
 			raise TypeError("marketplace_id:{!r} is not a str.".format(marketplace_id))
 		elif not marketplace_id:
 			raise ValueError("marketplace_id:{!r} cannot be empty.".format(marketplace_id))
 
-		if not isinstance(id_type, str):
+		if not isinstance(id_type, six.string_types):
 			raise TypeError("id_type:{!r} is not a str.".format(id_type))
 		elif not id_type:
 			raise ValueError("id_type:{!r} cannot be empty.".format(id_type))
@@ -367,12 +369,12 @@ class MWSProducts(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(marketplace_id, str):
+		if not isinstance(marketplace_id, six.string_types):
 			raise TypeError("marketplace_id:{!r} is not a str.".format(marketplace_id))
 		elif not marketplace_id:
 			raise ValueError("marketplace_id:{!r} cannot be empty.".format(marketplace_id))
 
-		if not isinstance(id_type, str):
+		if not isinstance(id_type, six.string_types):
 			raise TypeError("id_type:{!r} is not a str.".format(id_type))
 		elif not id_type:
 			raise ValueError("id_type:{!r} cannot be empty.".format(id_type))
@@ -386,7 +388,7 @@ class MWSProducts(amazonmws.mws.MWS):
 
 		if condition is not None:
 			condition = ITEM_CONDITIONS.get(condition, condition)
-			if not isinstance(condition, str):
+			if not isinstance(condition, six.string_types):
 				raise TypeError("condition:{!r} is not a str.".format(condition))
 			elif not condition:
 				raise ValueError("condition:{!r} cannot be empty.".format(condition))
@@ -422,19 +424,19 @@ class MWSProducts(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(marketplace_id, str):
+		if not isinstance(marketplace_id, six.string_types):
 			raise TypeError("marketplace_id:{!r} is not a str.".format(marketplace_id))
 		elif not marketplace_id:
 			raise ValueError("marketplace_id:{!r} cannot be empty.".format(marketplace_id))
 
-		if not isinstance(query, str):
+		if not isinstance(query, six.string_types):
 			raise TypeError("query:{!r} is not a str.".format(query))
 		elif not query:
 			raise ValueError("query:{!r} cannot be empty.".format(query))
 
 		if context is not None:
 			context = QUERY_CONTEXTS.get(context, context)
-			if not isinstance(context, str):
+			if not isinstance(context, six.string_types):
 				raise TypeError("context:{!r} is not a str.".format(context))
 			elif not context:
 				raise ValueError("context:{!r} cannot be empty.".format(context))
