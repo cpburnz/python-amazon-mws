@@ -602,11 +602,11 @@ class MWSAgent(IMWSAgent):
 			if debug.get('info', False):
 				print("Args ({})".format(len(args)))
 				print("---------")
-				pprint.pprint(args))
+				pprint.pprint(args)
 				print("---------")
 				print("Headers ({})".format(len(headers)))
 				print("------------")
-				pprint.pprint(headers))
+				pprint.pprint(headers)
 				print("------------")
 			if debug.get('body', False) or debug.get('info', False):
 				print("Body ({}:{})".format(body.__class__.__name__, body_len))
