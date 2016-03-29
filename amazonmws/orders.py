@@ -101,7 +101,7 @@ class Orders( MWS ):
 			'SellerId': self.merchant_id,
 			'Timestamp': datetime_to_iso8601(datetime.datetime.utcnow()),
 			'Version': self.mws_api_version,
-			'MarketplaceId': MARKETPLACE_IDS['us'],
+			'MarketplaceId': [ MARKETPLACE_IDS['us'], ]
 		}
 
 	def send_request(self, action, args_dict):
