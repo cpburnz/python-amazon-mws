@@ -1,4 +1,5 @@
 # coding: utf-8
+from __future__ import division
 """
 This module provides an implementation of the Amazon MWS Products API.
 """
@@ -8,7 +9,6 @@ __created__ = "2012-12-04"
 __modified__ = "2016-03-29"
 __modified_by___ = "Joshua D. Burns"
 
-from __future__ import division
 import six # Python2/Python3 compatibility library.
 import datetime
 import amazonmws.mws
