@@ -22,10 +22,12 @@ HTTP ERROR 503
 </ErrorResponse>
 '''
 
-__date__ = "05/03/2012 10:04:37 AM"
+__author__ = "Caleb P. Burns"
 __created__ = "2012-05-03"
-__modified__ = "2013-03-28"
+__modified__ = "2016-03-29"
+__modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
 from amazonmws.mws import MWS#The MWS connection logic
 from amazonmws.util import datetime_to_iso8601, is_sequence
 import datetime
@@ -119,7 +121,7 @@ class Orders( MWS ):
 
 		query = self._combine_dicts( args, args_dict )
 		new_query = {}
-		for key, value in query.iteritems():
+		for key, value in six.iteritems(query):
 			self._update_query( new_query, key, value )
 
 		return MWS.send_request(self, new_query, path=self.path )
@@ -132,7 +134,7 @@ class Orders( MWS ):
 		a value, then the value in dict2 will overwrite it
 		'''
 		query = dict1
-		for key, value in dict2.iteritems():
+		for key, value in six.iteritems(dict2):
 			if key in query:
 				if isinstance( query[key], list ):
 					if isinstance( value, list ):
@@ -229,7 +231,7 @@ class Orders( MWS ):
 			amazon_statuses = []
 			for i, status in enumerate(order_statuses):
 				status = ORDER_STATUSES.get(status, status)
-				if not isinstance(status, basestring):
+				if not isinstance(status, six.string_types):
 					raise TypeError("order_statuses[{}]:{!r} is not a string.".format(i, status))
 				elif not status:
 					raise ValueError("order_statuses[{}]:{!r} cannot be empty.".format(i, status))
@@ -248,7 +250,7 @@ class Orders( MWS ):
 			elif not marketplaces:
 				raise ValueError("marketplaces:{!r} cannot be empty.".format(marketplaces))
 			for i, market in enumerate(marketplaces):
-				if not isinstance(market, basestring):
+				if not isinstance(market, six.string_types):
 					raise TypeError("marketplaces[{}]:{!r} is not a string.".format(i, market))
 				elif not market:
 					raise ValueError("marketplaces[{}]:{!r} cannot be empty.".format(i, market))
@@ -271,7 +273,7 @@ class Orders( MWS ):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(next_token, str):
+		if not isinstance(next_token, six.string_types):
 			raise TypeError("next_token:{!r} is not a str.".format(next_token))
 		elif not next_token:
 			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))
