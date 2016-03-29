@@ -668,7 +668,7 @@ class MWSAgent(IMWSAgent):
 		"""
 		if callable(getattr(body, 'read', None)):
 			body = body.read()
-		request = six.moves.urllib.request.Request(str(url), data=body, headers=headers)
+		request = six.moves.urllib.request.Request(url, data=body, headers=headers)
 		try:
 			response = six.moves.urllib.request.urlopen(request, timeout=30)
 			data = response.read()
