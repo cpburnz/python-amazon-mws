@@ -4,9 +4,12 @@ This module contains utility methods that are not necessarily specific
 to Amazon MWS, but are used throughout the implementation of its APIs.
 """
 
+__author__ = "Caleb P. Burns"
 __created__ = "2012-11-26"
-__modified__ = "2013-03-28"
+__modified__ = "2016-03-29"
+__modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
 import collections
 import datetime
 
@@ -25,7 +28,7 @@ def datetime_to_iso8601(dt, name=None):
 	Returns the formatted datetime (``str``).
 	"""
 	if not isinstance(dt, datetime.datetime):
-		if isinstance(dt, (float, int, long)):
+		if isinstance(dt, (float,)) or isinstance(dt, six.integer_types):
 			dt = datetime.datetime.utcfromtimestamp(dt)
 		elif isinstance(dt, datetime.date):
 			dt = datetime.datetime.combine(dt, datetime.time(0))
@@ -65,7 +68,7 @@ def is_sequence(obj):
 
 	Returns whether the specified object is a sequence (``bool``).
 	"""
-	return isinstance(obj, collections.Sequence) and not isinstance(obj, basestring)
+	return isinstance(obj, collections.Sequence) and not isinstance(obj, six.string_types)
 
 def marketplace_args(marketplaces, name=None):
 	"""
@@ -91,7 +94,7 @@ def marketplace_args(marketplaces, name=None):
 
 	args = []
 	for i, marketplace_id in enumerate(marketplaces, 0):
-		if not isinstance(marketplace_id, basestring):
+		if not isinstance(marketplace_id, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a string.".format(name, i, marketplace_id))
 		elif not marketplace_id:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, marketplace_id))
@@ -148,7 +151,7 @@ def validate_float(value, name=None, range_=None):
 		min_ = None
 		max_ = None
 
-	if not isinstance(value, (float, int, long)):
+	if not isinstance(value, (float,)) or isinstance(value, six.integer_types):
 		raise TypeError("{}:{!r} is not a float.".format(name, value))
 
 	if min_ is not None and value < min_:
@@ -179,7 +182,7 @@ def validate_integer(value, name=None, range_=None):
 		min_ = None
 		max_ = None
 
-	if not isinstance(value, (int, long)):
+	if not isinstance(value, six.integer_types):
 		raise TypeError("{}:{!r} is not an integer.".format(name, value))
 
 	if min_ is not None and value < min_:
@@ -247,7 +250,7 @@ def validate_string(value, name=None, size=None, startswith=None, values=None):
 		min_ = None
 		max_ = None
 
-	if not isinstance(value, basestring):
+	if not isinstance(value, six.string_types):
 		raise TypeError("{}:{!r} is not a string.".format(name, value))
 
 	if min_ is not None and len(value) < min_:
