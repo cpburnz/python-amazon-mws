@@ -43,6 +43,7 @@ ORDER_STATUSES = {
 	'unshipped': 'Unshipped',
 }
 
+# DEPRECATED. Remove in version 2.0.
 class UnsupportedActionError(Exception):
 	'''
 	This exception is raised when an action is called
@@ -83,8 +84,8 @@ class Orders( MWS ):
 			}
 	'''
 	client_api_version = __modified__
-	mws_api_version = '2011-01-01'
-	path = '/Orders/2011-01-01' # The path to the server from the endpoint
+	mws_api_version = '2013-09-01'
+	path = '/Orders/2013-09-01' # The path to the server from the endpoint
 
 	supported_actions = ('ListOrders', 'ListOrdersByNextToken', 'GetOrder', 'ListOrderItems', 'ListOrderItemsByNextToken', 'GetServiceStatus') # A list of supported actions in the Orders API
 
