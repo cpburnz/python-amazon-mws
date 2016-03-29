@@ -214,16 +214,16 @@ class Orders( MWS ):
 
 		# Ensure our dates are properly formatted.
 		if 'CreatedAfter' in kwargs and kwargs['CreatedAfter']:
-			args['CreatedAfter'] = datetime_to_iso8601(created_after, name='CreatedAfter')
+			args['CreatedAfter'] = datetime_to_iso8601(kwargs['CreatedAfter'], name='CreatedAfter')
 
 		if 'CreatedBefore' in kwargs and kwargs['CreatedBefore']:
-			args['CreatedBefore'] = datetime_to_iso8601(created_before, name='CreatedBefore')
+			args['CreatedBefore'] = datetime_to_iso8601(kwargs['CreatedBefore'], name='CreatedBefore')
 
 		if 'LastUpdatedAfter' in kwargs and kwargs['LastUpdatedAfter']:
-			args['LastUpdatedAfter'] = datetime_to_iso8601(updated_after, name='LastUpdatedAfter')
+			args['LastUpdatedAfter'] = datetime_to_iso8601(kwargs['LastUpdatedAfter'], name='LastUpdatedAfter')
 
 		if 'LastUpdatedBefore' in kwargs and kwargs['LastUpdatedBefore']:
-			args['LastUpdatedBefore'] = datetime_to_iso8601(updated_before, name='LastUpdatedBefore')
+			args['LastUpdatedBefore'] = datetime_to_iso8601(kwargs['LastUpdatedBefore'], name='LastUpdatedBefore')
 
 		return self.send_request('ListOrders', args)
 
