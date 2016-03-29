@@ -286,7 +286,7 @@ class MWS(object):
 
 		self.agent = agent or MWSAgent()
 
-		self.user_agent = six.u(user_agent or self.ua_new(self.client_api_version, self.app_name, self.app_version))#.encode(self.ua_enc)
+		self.user_agent = six.u(user_agent or self.ua_new(self.client_api_version, self.app_name, self.app_version)).encode(self.ua_enc)
 
 	def send_request(self, args, body=None, content_type=None, path=None, debug=None):
 		"""
