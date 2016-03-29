@@ -499,7 +499,7 @@ class MWSAgent(IMWSAgent):
 			raise TypeError("mws:{!r} is not an MWS.".format(mws))
 
 		if isinstance(args, dict):
-			args = args.items()
+			args = six.iteritems(args)
 		elif is_sequence(args):
 			args = args[:]
 		else:
