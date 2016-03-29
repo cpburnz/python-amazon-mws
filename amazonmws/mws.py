@@ -621,7 +621,7 @@ class MWSAgent(IMWSAgent):
 					print(body)
 				print("-"*20)
 
-		return method, six.u(url), headers, body
+		return method, url, headers, body
 
 	def request(self, mws, path, args, body, content_type, debug=None):
 		"""
@@ -668,7 +668,7 @@ class MWSAgent(IMWSAgent):
 		"""
 		if callable(getattr(body, 'read', None)):
 			body = body.read()
-		request = six.moves.urllib.request.Request(url, data=body, headers=headers)
+		request = six.moves.urllib.request.Request(str(url), data=body, headers=headers)
 		try:
 			response = six.moves.urllib.request.urlopen(request, timeout=30)
 			data = response.read()
