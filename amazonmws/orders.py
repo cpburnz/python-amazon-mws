@@ -32,7 +32,7 @@ from amazonmws.util import datetime_to_iso8601, is_sequence
 import datetime
 import re
 
-#: Order statuses. DEPRECATED.
+#: Order statuses. DEPRECATED. Remove in version 2.0
 ORDER_STATUSES = {
 	'cancelled': 'Canceled', # Yes, it is "Canceled" here and not "Cancelled".
 	'invoice_unconfirmed': 'InvoiceUnconfirmed',
@@ -111,13 +111,8 @@ class Orders( MWS ):
 			action[str]: an Orders API supported action. UnsupportActionError is raises if this is an unknown action
 			args_dict[dict]: dictionary of arguments that follow the Orders API argument guidelines
 		"""
-		#Have to make the timestamp just before sending it out
 		args = self.new_args()
-
-		if action not in self.supported_actions:
-			raise UnsupportedActionError( "UnsupportedActionError! '%s' is not a supported action in the Orders API, supported actions are: %s"% (action, self.supported_actions) )
 		args['Action'] = action
-
 
 		query = self._combine_dicts( args, args_dict )
 		new_query = {}
