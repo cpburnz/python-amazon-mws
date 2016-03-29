@@ -249,26 +249,26 @@ class MWS(object):
 			raise TypeError("access_key:{!r} must be a string.".format(access_key))
 		elif not access_key:
 			raise ValueError("access_key:{!r} cannot be empty.".format(access_key))
-		access_key = six.u(access_key)
+		access_key = str(access_key)
 
 		if not isinstance(secret_key, six.string_types):
 			raise TypeError("secret_key:{!r} must be a string.".format(secret_key))
 		elif not secret_key:
 			raise ValueError("secret_key:{!r} cannot be empty.".format(secret_key))
-		secret_key = six.u(secret_key)
+		secret_key = str(secret_key)
 
 		endpoint = ENDPOINTS.get(endpoint, endpoint)
 		if not isinstance(endpoint, six.string_types):
 			raise TypeError("endpoint:{!r} must be a string.".format(endpoint))
 		elif not endpoint:
 			raise ValueError("endpoint:{!r} cannot be empty.".format(endpoint))
-		endpoint = six.u(endpoint)
+		endpoint = str(endpoint)
 
 		if not isinstance(merchant_id, six.string_types):
 			raise TypeError("merchant_id:{!r} must be a string.".format(merchant_id))
 		elif not merchant_id:
 			raise ValueError("merchant_id:{!r} cannot be empty.".format(merchant_id))
-		merchant_id = six.u(merchant_id)
+		merchant_id = str(merchant_id)
 
 		if agent is not None and not isinstance(agent, IMWSAgent):
 			raise TypeError("agent:{!r} is not an IMWSAgent.".format(agent))
