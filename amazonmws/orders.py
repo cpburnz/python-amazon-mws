@@ -27,7 +27,7 @@ __modified__ = "2016-03-29"
 __modified_by___ = "Joshua D. Burns"
 
 import six # Python2/Python3 compatibility library.
-from amazonmws.mws import MWS#The MWS connection logic
+from amazonmws.mws import MWS, MARKETPLACE_IDS # The MWS connection logic
 from amazonmws.util import datetime_to_iso8601, is_sequence
 import datetime
 import re
