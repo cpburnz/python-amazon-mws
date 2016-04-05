@@ -6,7 +6,7 @@ to Amazon MWS, but are used throughout the implementation of its APIs.
 
 __author__ = "Caleb P. Burns"
 __created__ = "2012-11-26"
-__modified__ = "2016-03-29"
+__modified__ = "2016-04-05"
 __modified_by___ = "Joshua D. Burns"
 
 import six # Python2/Python3 compatibility library.
