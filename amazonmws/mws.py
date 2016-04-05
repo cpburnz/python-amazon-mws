@@ -520,6 +520,9 @@ class MWSAgent(IMWSAgent):
 			raise KeyError("args:{!r} cannot have key: {!r}.".format(args, reserved.pop()))
 
 		if body is not None:
+			if isinstance(body, six.string_types):
+				# Ensure string types are byte-arrays.
+				body = six.b(body)
 			body_is_str = isinstance(body, six.bytes)
 			body_is_file = callable(getattr(body, 'read', None))
 			if not body_is_str and not body_is_file:
