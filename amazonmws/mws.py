@@ -529,10 +529,11 @@ class MWSAgent(IMWSAgent):
 				body = six.b(body)
 				print(body)
 			body_is_str = isinstance(body, six.binary_type)
-			print('IS BODY BINART TYPE?', body_is_str)
+			print('IS BODY BINARY TYPE?', body_is_str)
 			body_is_file = callable(getattr(body, 'read', None))
 			if not body_is_str and not body_is_file:
 				raise TypeError("body:{!r} is not a str or file.".format(body))
+
 			if not isinstance(content_type, six.string_types):
 				raise TypeError("content_type:{!r} is not a str.".format(content_type))
 			elif not content_type:
@@ -570,10 +571,11 @@ class MWSAgent(IMWSAgent):
 		headers = {
 			'User-Agent': mws.user_agent
 		}
+
 		if body is not None:
 			if body_is_str:
 				body_len = len(body)
-				body_md5 = base64.b64encode(hashlib.md5(body).hexdigest())
+				body_md5 = base64.b64encode(hashlib.md5(body).digest())
 			elif body_is_file:
 				if callable(getattr(body, 'seek', None)) and callable(getattr(body, 'tell', None)):
 					# MD5 body and get length.
