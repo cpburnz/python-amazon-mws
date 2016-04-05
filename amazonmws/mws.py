@@ -509,7 +509,7 @@ class MWSAgent(IMWSAgent):
 
 		if isinstance(args, dict):
 			args = list(six.iteritems(args))
-			print('ARGS IS DICT:', six.iteritems(args))
+			print('ARGS IS DICT:')
 		elif is_sequence(args):
 			args = args[:]
 			print('ARGS IS SEQUENCE')
@@ -550,9 +550,11 @@ class MWSAgent(IMWSAgent):
 			('SignatureVersion', self.sig_version)
 		]
 		args = sorted(args, key=self.sort_args_key)
+		print('SORTED ARGS:', args)
 		query = "&".join((
 			"{}={}".format(six.moves.urllib.parse.quote(str(k), self.req_args_safe_chars), six.moves.urllib.parse.quote(str(v), self.req_args_safe_chars))
 		) for k, vals in args for v in (vals if is_sequence(vals) else [vals]))
+		print('QUERY:', query)
 
 		# Signature
 		method = "GET" if body is None else "POST"
