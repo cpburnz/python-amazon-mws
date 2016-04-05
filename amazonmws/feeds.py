@@ -262,7 +262,7 @@ class Feeds(amazonmws.mws.MWS):
 			raise TypeError("submission_id:{!r} is not a string.".format(submission_id))
 		elif not submission_id:
 			raise ValueError("submission_id:{!r} cannot be empty.".format(submission_id))
-		submission_id = submission_id.encode('ASCII')
+		#submission_id = submission_id.encode('ASCII') # TODO: Why are we encoding this? Causing Python 3 issues.
 
 		# Buils args.
 		args = self.new_args()
@@ -359,7 +359,7 @@ class Feeds(amazonmws.mws.MWS):
 			raise TypeError("next_token:{!r} is not a string.".format(next_token))
 		elif not next_token:
 			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))
-		next_token = next_token.encode('ASCII')
+		#next_token = next_token.encode('ASCII')
 
 		# Build args.
 		args = self.new_args()
