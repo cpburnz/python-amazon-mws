@@ -132,7 +132,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		}
 		return args
 
-	def cancel_submissions(self, submissions=None, feed_types=None, from_date=None, to_date=None, all_submissions=None, debug=None):
+	def CancelFeedSubmissions(self, submissions=None, feed_types=None, from_date=None, to_date=None, all_submissions=None, debug=None):
 		"""
 		Requests all Feed Submissions that match the specified criteria to
 		be cancelled.
@@ -207,7 +207,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def count_submissions(self, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
+	def GetFeedSubmissionCount(self, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
 		"""
 		Requests a count of all Feed Submissions that match the specified
 		criteria.
@@ -250,7 +250,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def get_report(self, submission_id, debug=None):
+	def GetFeedSubmissionResult(self, submission_id, debug=None):
 		"""
 		Requests the Feed Processing Report.
 
@@ -272,7 +272,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def list_submissions(self, submissions=None, count=None, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
+	def GetFeedSubmissionList(self, submissions=None, count=None, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
 		"""
 		Requests for the list of Feed Submissions that match the specified
 		criteria.
@@ -346,7 +346,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def list_submissions_next(self, next_token, debug=None):
+	def GetFeedSubmissionListByNextToken(self, next_token, debug=None):
 		"""
 		Requests the next batch of Feed Submissions being listed.
 
@@ -369,7 +369,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def submit_feed(self, feed_type, data, content_type, marketplaces=None, debug=None):
+	def SubmitFeed(self, feed_type, data, content_type, marketplaces=None, debug=None):
 		"""
 		Submits the specified feed.
 
