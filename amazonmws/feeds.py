@@ -102,7 +102,7 @@ PROCESSING_STATUSES = {
 }
 
 
-class MWSFeeds(amazonmws.mws.MWS):
+class Feeds(amazonmws.mws.MWS):
 	"""
 	The ``MWSFeeds`` class is used to send requests to the Amazon MWS
 	Feeds API. The primary purpose of this class is to submit feeds to
