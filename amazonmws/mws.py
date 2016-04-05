@@ -565,7 +565,7 @@ class MWSAgent(IMWSAgent):
 			'User-Agent': mws.user_agent
 		}
 		if body is not None:
-			if body_is_file:
+			if body_is_str:
 				body_len = len(body)
 				body_md5 = base64.b64encode(hashlib.md5(body).hexdigest())
 			elif body_is_file:
