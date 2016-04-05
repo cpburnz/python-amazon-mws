@@ -98,7 +98,7 @@ def marketplace_args(marketplaces, name=None):
 			raise TypeError("{}[{}]:{!r} is not a string.".format(name, i, marketplace_id))
 		elif not marketplace_id:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, marketplace_id))
-		marketplace_id = encode_string(marketplace_id, 'ASCII', name="{}[{}]".format(name, i))
+		#marketplace_id = encode_string(marketplace_id, 'ASCII', name="{}[{}]".format(name, i)) # TODO: Why were we encoding? This was causing issues in python 3.
 
 		args.append(('MarketplaceIdList.Id.{}'.format(i + 1), marketplace_id))
 
