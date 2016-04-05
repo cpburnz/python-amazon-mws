@@ -493,6 +493,13 @@ class MWSAgent(IMWSAgent):
 		the request headers (``dict`` or ``None``), and the request body
 		(``str``, ``file`` or ``None``).
 		"""
+		
+		# Before anything else, ensure body is proper data type (if string)
+		if body is not None:
+			if isinstance(body, six.string_types):
+				# Ensure string types are byte-arrays.
+				body = six.b(body)
+
 		if debug is None:
 			debug = {}
 
@@ -520,9 +527,6 @@ class MWSAgent(IMWSAgent):
 			raise KeyError("args:{!r} cannot have key: {!r}.".format(args, reserved.pop()))
 
 		if body is not None:
-			if isinstance(body, six.string_types):
-				# Ensure string types are byte-arrays.
-				body = six.b(body)
 			body_is_str = isinstance(body, six.binary_type)
 			body_is_file = callable(getattr(body, 'read', None))
 			if not body_is_str and not body_is_file:
