@@ -512,7 +512,7 @@ class MWSAgent(IMWSAgent):
 			print('ARGS IS DICT:', six.iteritems(args))
 		elif is_sequence(args):
 			args = args[:]
-			print('ARGS IS SEQUENCE;(
+			print('ARGS IS SEQUENCE')
 		else:
 			raise TypeError("args:{!r} must be a dict or sequence.".format(args))
 		print('NOW ARGUMENTS:', args)
