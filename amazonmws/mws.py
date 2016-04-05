@@ -499,7 +499,6 @@ class MWSAgent(IMWSAgent):
 			if isinstance(body, six.string_types):
 				# Ensure string types are byte-arrays.
 				body = six.b(body)
-		print('ARGUMENTS:', args)
 
 		if debug is None:
 			debug = {}
@@ -509,13 +508,10 @@ class MWSAgent(IMWSAgent):
 
 		if isinstance(args, dict):
 			args = list(six.iteritems(args))
-			print('ARGS IS DICT:')
 		elif is_sequence(args):
 			args = args[:]
-			print('ARGS IS SEQUENCE')
 		else:
 			raise TypeError("args:{!r} must be a dict or sequence.".format(args))
-		print('NOW ARGUMENTS:', args)
 
 		# Check for missing and reserved args.
 		arg_keys = set([k for k, _v in args])
@@ -550,11 +546,9 @@ class MWSAgent(IMWSAgent):
 			('SignatureVersion', self.sig_version)
 		]
 		args = sorted(args, key=self.sort_args_key)
-		print('SORTED ARGS:', args)
 		query = "&".join((
 			"{}={}".format(six.moves.urllib.parse.quote(str(k), self.req_args_safe_chars), six.moves.urllib.parse.quote(str(v), self.req_args_safe_chars))
 		) for k, vals in args for v in (vals if is_sequence(vals) else [vals]))
-		print('QUERY:', query)
 
 		# Signature
 		method = "GET" if body is None else "POST"
