@@ -520,7 +520,7 @@ class MWSAgent(IMWSAgent):
 			raise KeyError("args:{!r} cannot have key: {!r}.".format(args, reserved.pop()))
 
 		if body is not None:
-			body_is_str = isinstance(body.encode('utf-8'), six.string_types)
+			body_is_str = isinstance(body, six.string_types)
 			body_is_file = callable(getattr(body, 'read', None))
 			if not body_is_str and not body_is_file:
 				raise TypeError("body:{!r} is not a str or file.".format(body))
@@ -564,7 +564,7 @@ class MWSAgent(IMWSAgent):
 		if body is not None:
 			if body_is_file:
 				body_len = len(body)
-				body_md5 = base64.b64encode(hashlib.md5(bytes(body, 'utf-8')).hexdigest())
+				body_md5 = base64.b64encode(hashlib.md5(body).hexdigest())
 			elif body_is_file:
 				if callable(getattr(body, 'seek', None)) and callable(getattr(body, 'tell', None)):
 					# MD5 body and get length.
