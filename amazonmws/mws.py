@@ -519,6 +519,7 @@ class MWSAgent(IMWSAgent):
 		elif reserved:
 			raise KeyError("args:{!r} cannot have key: {!r}.".format(args, reserved.pop()))
 
+		'''
 		if body is not None:
 			body_is_str = isinstance(body, six.string_types)
 			body_is_file = callable(getattr(body, 'read', None))
@@ -528,6 +529,7 @@ class MWSAgent(IMWSAgent):
 				raise TypeError("content_type:{!r} is not a str.".format(content_type))
 			elif not content_type:
 				raise ValueError("content_type:{!r} cannot be empty.".format(content_type))
+		'''
 
 		if path is not None and not isinstance(path, six.string_types):
 			raise TypeError("path:{!r} is not a str.".format(path))
