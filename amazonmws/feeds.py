@@ -398,6 +398,7 @@ class Feeds(amazonmws.mws.MWS):
 
 		if marketplaces is not None:
 			args.update(marketplace_args(marketplaces, name='marketplaces'))
+			print(marketplace_args(marketplaces, name='marketplaces'))
 
 		return self.send_request(args, body=data, content_type=content_type, debug=debug)
 
