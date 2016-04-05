@@ -520,10 +520,16 @@ class MWSAgent(IMWSAgent):
 			raise KeyError("args:{!r} cannot have key: {!r}.".format(args, reserved.pop()))
 
 		if body is not None:
+			print('BODY SPECIFIED:', body)
+			print('BODY STRING TYPE:', type(body))
+			print('BODY STRING TYPE?', isinstance(body, six.string_types))
 			if isinstance(body, six.string_types):
+				print('BODY IS STRING, CONVERT TO BINARY')
 				# Ensure string types are byte-arrays.
 				body = six.b(body)
+				print(body)
 			body_is_str = isinstance(body, six.binary_type)
+			print('IS BODY BINART TYPE?', body_is_str)
 			body_is_file = callable(getattr(body, 'read', None))
 			if not body_is_str and not body_is_file:
 				raise TypeError("body:{!r} is not a str or file.".format(body))
