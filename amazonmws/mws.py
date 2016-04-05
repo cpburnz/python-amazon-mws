@@ -558,7 +558,7 @@ class MWSAgent(IMWSAgent):
 			host=mws.endpoint,
 			path=path,
 			query=query,
-			sig=six.moves.urllib.parse.quote(sig)
+			sig=six.moves.urllib.parse.quote(sig, safe='/')
 		)
 
 		# Headers.
