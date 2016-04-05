@@ -519,17 +519,15 @@ class MWSAgent(IMWSAgent):
 		elif reserved:
 			raise KeyError("args:{!r} cannot have key: {!r}.".format(args, reserved.pop()))
 
-		'''
 		if body is not None:
 			body_is_str = isinstance(body, six.string_types)
 			body_is_file = callable(getattr(body, 'read', None))
-			if not body_is_str and not body_is_file:
-				raise TypeError("body:{!r} is not a str or file.".format(body))
-			if not isinstance(content_type, six.string_types):
-				raise TypeError("content_type:{!r} is not a str.".format(content_type))
-			elif not content_type:
-				raise ValueError("content_type:{!r} cannot be empty.".format(content_type))
-		'''
+			#if not body_is_str and not body_is_file:
+			#	raise TypeError("body:{!r} is not a str or file.".format(body))
+			#if not isinstance(content_type, six.string_types):
+			#	raise TypeError("content_type:{!r} is not a str.".format(content_type))
+			#elif not content_type:
+			#	raise ValueError("content_type:{!r} cannot be empty.".format(content_type))
 
 		if path is not None and not isinstance(path, six.string_types):
 			raise TypeError("path:{!r} is not a str.".format(path))
@@ -564,10 +562,9 @@ class MWSAgent(IMWSAgent):
 			'User-Agent': mws.user_agent
 		}
 		if body is not None:
-			if body_is_str:
+			if not body_is_file:
 				body_len = len(body)
 				body_md5 = base64.b64encode(hashlib.md5(body).digest())
-
 			elif body_is_file:
 				if callable(getattr(body, 'seek', None)) and callable(getattr(body, 'tell', None)):
 					# MD5 body and get length.
