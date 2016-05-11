@@ -7,11 +7,11 @@ feeds.
 
 __author__ = "Caleb P. Burns"
 __created__ = "2012-11-26"
-__modified__ = "2013-06-27"
+__modified__ = "2016-04-05"
 __modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
 import datetime
-
 import amazonmws.mws
 from amazonmws.util import datetime_to_iso8601, encode_string, is_sequence, marketplace_args
 
@@ -102,7 +102,7 @@ PROCESSING_STATUSES = {
 }
 
 
-class MWSFeeds(amazonmws.mws.MWS):
+class Feeds(amazonmws.mws.MWS):
 	"""
 	The ``MWSFeeds`` class is used to send requests to the Amazon MWS
 	Feeds API. The primary purpose of this class is to submit feeds to
@@ -132,7 +132,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		}
 		return args
 
-	def cancel_submissions(self, submissions=None, feed_types=None, from_date=None, to_date=None, all_submissions=None, debug=None):
+	def CancelFeedSubmissions(self, submissions=None, feed_types=None, from_date=None, to_date=None, all_submissions=None, debug=None):
 		"""
 		Requests all Feed Submissions that match the specified criteria to
 		be cancelled.
@@ -207,7 +207,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def count_submissions(self, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
+	def GetFeedSubmissionCount(self, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
 		"""
 		Requests a count of all Feed Submissions that match the specified
 		criteria.
@@ -250,7 +250,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def get_report(self, submission_id, debug=None):
+	def GetFeedSubmissionResult(self, submission_id, debug=None):
 		"""
 		Requests the Feed Processing Report.
 
@@ -258,11 +258,11 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(submission_id, basestring):
+		if not isinstance(submission_id, six.string_types):
 			raise TypeError("submission_id:{!r} is not a string.".format(submission_id))
 		elif not submission_id:
 			raise ValueError("submission_id:{!r} cannot be empty.".format(submission_id))
-		submission_id = submission_id.encode('ASCII')
+		#submission_id = submission_id.encode('ASCII') # TODO: Why are we encoding this? Causing Python 3 issues.
 
 		# Buils args.
 		args = self.new_args()
@@ -272,7 +272,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def list_submissions(self, submissions=None, count=None, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
+	def GetFeedSubmissionList(self, submissions=None, count=None, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
 		"""
 		Requests for the list of Feed Submissions that match the specified
 		criteria.
@@ -325,7 +325,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 			args.update(submission_args(submissions, name='submissions'))
 
 		if count is not None:
-			if not isinstance(count, (int, long)):
+			if not isinstance(count, six.integer_types):
 				raise TypeError("count:{!r} is not an integer.".format(count))
 			elif count < 1 or 100 < count :
 				raise ValueError("count:{!r} is not between 1 and 100 inclusive.".format(count))
@@ -346,7 +346,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def list_submissions_next(self, next_token, debug=None):
+	def GetFeedSubmissionListByNextToken(self, next_token, debug=None):
 		"""
 		Requests the next batch of Feed Submissions being listed.
 
@@ -355,11 +355,11 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(next_token, basestring):
+		if not isinstance(next_token, six.string_types):
 			raise TypeError("next_token:{!r} is not a string.".format(next_token))
 		elif not next_token:
 			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))
-		next_token = next_token.encode('ASCII')
+		#next_token = next_token.encode('ASCII')
 
 		# Build args.
 		args = self.new_args()
@@ -369,7 +369,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def submit_feed(self, feed_type, data, content_type, marketplaces=None, debug=None):
+	def SubmitFeed(self, feed_type, data, content_type, marketplaces=None, debug=None):
 		"""
 		Submits the specified feed.
 
@@ -387,7 +387,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(feed_type, str):
+		if not isinstance(feed_type, six.string_types):
 			raise TypeError("feed_type:{!r} is not a str.".format(feed_type))
 		if data is None:
 			raise TypeError("data:{!r} is not a str or file.".format(data))
@@ -427,7 +427,7 @@ def feed_type_args(feed_types, name=None):
 	args = []
 	for i, feed_type in enumerate(feed_types):
 		feed_type = FEED_TYPES.get(feed_type, feed_type)
-		if not isinstance(feed_type, str):
+		if not isinstance(feed_type, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a str.".format(name, i, feed_type))
 		elif not feed_type:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, feed_type))
@@ -462,7 +462,7 @@ def status_args(statuses, name=None):
 	args = []
 	for i, status in enumerate(statuses):
 		status = PROCESSING_STATUSES.get(status, status)
-		if not isinstance(status, str):
+		if not isinstance(status, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a str.".format(name, i, status))
 		elif not status:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, status))
@@ -496,7 +496,7 @@ def submission_args(submissions, name=None):
 
 	args = []
 	for i, sub_id in enumerate(submissions):
-		if not isinstance(sub_id, basestring):
+		if not isinstance(sub_id, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a string.".format(name, i, sub_id))
 		elif not sub_id:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, sub_id))

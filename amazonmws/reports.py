@@ -3,12 +3,13 @@
 This module provides an implementation of the Amazon MWS Reports API.
 """
 
+__author__ = "Caleb P. Burns"
 __created__ = "2012-12-31"
-__modified__ = "2013-07-09"
-__modified_by__ = "Joshua D. Burns"
+__modified__ = "2016-03-29"
+__modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
 import datetime
-
 import amazonmws.mws
 from amazonmws.util import datetime_to_iso8601, encode_string, is_sequence, marketplace_args
 
@@ -165,7 +166,7 @@ class MWSReports(amazonmws.mws.MWS):
 		
 		Returns the contents of the Report.
 		"""
-		if not isinstance(report_id, (int, long)):
+		if not isinstance(report_id, six.integer_types):
 			raise TypeError("report_id:{!r} is not an integer.".format(report_id))
 		elif report_id < 0:
 			raise ValueError("report_id:{!r} cannot be less than 0.".format(report_id))
@@ -281,7 +282,7 @@ class MWSReports(amazonmws.mws.MWS):
 		Returns the raw XML response (``str``).
 		"""
 		if max_count is not None:
-			if not isinstance(max_count, (int, long)):
+			if not isinstance(max_count, six.integer_types):
 				raise TypeError("max_count:{!r} is not an int.".format(max_count))
 			elif max_count < 1 or 100 < max_count:
 				raise ValueError("max_count:{!r} is not between 1 and 100 inclusive.".format(max_count))
@@ -333,7 +334,7 @@ class MWSReports(amazonmws.mws.MWS):
 		
 		Returns the raw XML response (``str``).
 		"""
-		if not isinstance(next_token, basestring):
+		if not isinstance(next_token, six.string_types):
 			raise TypeError("next_token:{!r} is not a string.".format(next_token))
 		elif not next_token:
 			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))
@@ -441,7 +442,7 @@ class MWSReports(amazonmws.mws.MWS):
 		Returns the raw XML response (``str``).
 		"""
 		if max_count is not None:
-			if not isinstance(max_count, (int, long)):
+			if not isinstance(max_count, six.integer_types):
 				raise TypeError("max_count:{!r} is not an int.".format(max_count))
 			elif max_count < 1 or 100 < max_count:
 				raise ValueError("max_count:{!r} is not between 1 and 100 inclusive.".format(max_count))
@@ -490,7 +491,7 @@ class MWSReports(amazonmws.mws.MWS):
 		
 		Returns the raw XML response (``str``).
 		"""
-		if not isinstance(next_token, basestring):
+		if not isinstance(next_token, six.string_types):
 			raise TypeError("next_token:{!r} is not a str.".format(next_token))
 		elif not next_token:
 			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))
@@ -542,7 +543,7 @@ class MWSReports(amazonmws.mws.MWS):
 		parsed; otherwise, the raw XML response (``str``)
 		"""
 		report_type = REPORT_TYPES.get(report_type, report_type)
-		if not isinstance(report_type, basestring):
+		if not isinstance(report_type, six.string_types):
 			raise TypeError("report_type:{!r} is not a string.".format(report_type))
 		elif not report_type:
 			raise ValueError("report_type:{!r} cannot be empty.".format(report_type))
@@ -608,7 +609,7 @@ class MWSReports(amazonmws.mws.MWS):
 			raise TypeError("reports['acknowledged']:{!r} is not boolean.".format(acknowledged))
 
 		for i, report_id in enumerate(reports, 1):
-			if not isinstance(report_id, basestring):
+			if not isinstance(report_id, six.string_types):
 				raise TypeError("reports[{}]:{!r} is not a string.".format(i, report_id))
 			elif not report_id:
 				raise ValueError("reports[{}]:{!r} cannot be empty.".format(i, report_id))
@@ -664,7 +665,7 @@ def report_type_args(report_types, name=None):
 	args = []
 	for i, report_type in enumerate(report_types, 0):
 		report_type = REPORT_TYPES.get(report_type, report_type)
-		if not isinstance(report_type, basestring):
+		if not isinstance(report_type, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a string.".format(name, i, report_type))
 		elif not report_type:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, report_type))
@@ -697,7 +698,7 @@ def request_args(requests, name=None):
 		
 	args = []
 	for i, request_id in enumerate(requests, 0):
-		if not isinstance(request_id, basestring):
+		if not isinstance(request_id, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a string.".format(name, i, request_id))
 		elif not request_id:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, request_id))
@@ -731,7 +732,7 @@ def status_args(statuses, name=None):
 		
 	args = []
 	for i, status in enumerate(statuses, 0):
-		if not isinstance(status, basestring):
+		if not isinstance(status, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a string.".format(name, i, status))
 		elif not status:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, status))
