@@ -566,6 +566,8 @@ class MWSAgent(IMWSAgent):
 			headers['Content-Type'] = content_type
 			headers['Content-Length'] = body_len
 			headers['Content-MD5'] = body_md5
+		else:
+			body_len = None
 
 		# Debug info.
 		if debug:
