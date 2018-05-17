@@ -6,7 +6,7 @@ This module provides an implementation of the Amazon MWS Products API.
 
 __author__ = "Caleb P. Burns"
 __created__ = "2012-12-04"
-__modified__ = "2016-03-29"
+__modified__ = "2018-05-17"
 __modified_by___ = "Joshua D. Burns"
 
 import six # Python2/Python3 compatibility library.
@@ -156,7 +156,7 @@ class MWSProducts(amazonmws.mws.MWS):
 	*path* (``str``) is path all Sellers API requests are sent to.
 	"""
 
-	def get_categories(self, marketplace_id, id_type, id_, verbose=None):
+	def get_categories(self, marketplace_id, id_type, id_, debug=None):
 		"""
 		Requests the categories for the specified marketplace product.
 
@@ -195,9 +195,9 @@ class MWSProducts(amazonmws.mws.MWS):
 		else:
 			raise ValueError("id_type:{!r} is not 'ASIN' or 'SellerSKU'.".format(id_type))
 
-		return self.send_request(args, path=self.path, verbose=verbose)
+		return self.send_request(args, path=self.path, debug=debug)
 
-	def get_competitive_pricing(self, marketplace_id, id_type, id_list, verbose=None):
+	def get_competitive_pricing(self, marketplace_id, id_type, id_list, debug=None):
 		"""
 		Requests the competitive pricing for the specified marketplace
 		products.
@@ -241,9 +241,9 @@ class MWSProducts(amazonmws.mws.MWS):
 		else:
 			raise ValueError("id_type:{!r} is not 'ASIN' or 'SellerSKU'.".format(id_type))
 
-		return self.send_request(args, path=self.path, verbose=verbose)
+		return self.send_request(args, path=self.path, debug=debug)
 
-	def get_lowest_listings(self, marketplace_id, id_type, id_list, condition=None, exclude_me=None, verbose=None):
+	def get_lowest_listings(self, marketplace_id, id_type, id_list, condition=None, exclude_me=None, debug=None):
 		"""
 		Requests the lowest offer listings for the specified marketplace
 		products.
@@ -308,9 +308,9 @@ class MWSProducts(amazonmws.mws.MWS):
 		if condition is not None:
 			args['ItemCondition'] = condition
 
-		return self.send_request(args, path=self.path, verbose=verbose)
+		return self.send_request(args, path=self.path, debug=debug)
 
-	def get_products(self, marketplace_id, id_type, id_list, verbose=None):
+	def get_products(self, marketplace_id, id_type, id_list, debug=None):
 		"""
 		Requests the information for the specified marketplace products.
 
@@ -348,9 +348,9 @@ class MWSProducts(amazonmws.mws.MWS):
 		args['Action'] = ACTIONS['get_products_for_id']
 		args.update({'IDList.ID.{}'.format(i): id_ for i, id_ in enumerate(id_list, 1)})
 
-		return self.send_request(args, path=self.path, verbose=verbose)
+		return self.send_request(args, path=self.path, debug=debug)
 
-	def get_my_price(self, marketplace_id, id_type, id_list, condition=None, verbose=None):
+	def get_my_price(self, marketplace_id, id_type, id_list, condition=None, debug=None):
 		"""
 		Requests the seller's price for the specified marketplace products.
 
@@ -406,9 +406,9 @@ class MWSProducts(amazonmws.mws.MWS):
 		if condition is not None:
 			args['ItemCondition'] = condition
 
-		return self.send_request(args, path=self.path, verbose=verbose)
+		return self.send_request(args, path=self.path, debug=debug)
 
-	def list_matching(self, marketplace_id, query, context, verbose=None):
+	def list_matching(self, marketplace_id, query, context, debug=None):
 		"""
 		Requests the marketplace products that match the query.
 
@@ -448,7 +448,7 @@ class MWSProducts(amazonmws.mws.MWS):
 		if context is not None:
 			args['QueryContextId'] = context
 
-		return self.send_request(args, path=self.path, verbose=verbose)
+		return self.send_request(args, path=self.path, debug=debug)
 
 	def new_args(self):
 		"""
