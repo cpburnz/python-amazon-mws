@@ -7,24 +7,90 @@ feeds.
 
 __author__ = "Caleb P. Burns"
 __created__ = "2012-11-26"
-__modified__ = "2013-03-28"
-__status__ = "Development"
+__modified__ = "2016-04-05"
+__modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
 import datetime
-
 import amazonmws.mws
 from amazonmws.util import datetime_to_iso8601, encode_string, is_sequence, marketplace_args
 
 #: Feed types.
 FEED_TYPES = {
-	'product_data': '_POST_PRODUCT_DATA_',
-	'product_image': '_POST_PRODUCT_IMAGE_DATA_',
-	'product_item': '_POST_ITEM_DATA_',
-	'product_inventory': '_POST_INVENTORY_AVAILABILITY_DATA_',
-	'product_pricing': '_POST_PRODUCT_PRICING_DATA_',
-	'product_relationship': '_POST_PRODUCT_RELATIONSHIP_DATA_',
-	'order_acknowledgement': '_POST_ORDER_ACKNOWLEDGEMENT_DATA_',
-	'order_fulfillment': '_POST_ORDER_FULFILLMENT_DATA_'
+	# XML Feeds
+	'offer':                  '_POST_OFFER_ONLY_DATA_',                             # Offer
+	'order_acknowledgement':  '_POST_ORDER_ACKNOWLEDGEMENT_DATA_',                  # Order
+	'order_cancellation':     '_POST_FULFILLMENT_ORDER_CANCELLATION_REQUEST_DATA_', # Order
+	'order_fulfillment':      '_POST_ORDER_FULFILLMENT_DATA_',                      # Order
+	'product_data':           '_POST_PRODUCT_DATA_',                                # Product
+	'product_image':          '_POST_PRODUCT_IMAGE_DATA_',                          # Product
+	'product_inventory':      '_POST_INVENTORY_AVAILABILITY_DATA_',                 # Product
+	'product_item':           '_POST_ITEM_DATA_',                                   # Product
+	'product_override':       '_POST_PRODUCT_OVERRIDES_DATA_',                      # Product
+	'product_pricing':        '_POST_PRODUCT_PRICING_DATA_',                        # Product
+	'product_relationship':   '_POST_PRODUCT_RELATIONSHIP_DATA_',                   # Product
+	'shipping_override':      '_POST_SHIPPING_OVERRIDE_DATA_',                      # Shipping
+	'webstore_item':          '_POST_WEBSTORE_ITEM_DATA_',                          # Webstore
+	# Flat-File Feeds
+	'flat_book':              '_POST_FLAT_FILE_BOOKLOADER_DATA_',                   # Book
+	'flat_book_uiee':         '_POST_UIEE_BOOKLOADER_DATA_',                        # Book: Universal Information Exchange Environment
+	'flat_product_converge':  '_POST_FLAT_FILE_CONVERGENCE_LISTINGS_DATA_',         # Product: Merging
+	'flat_product_data':      '_POST_FLAT_FILE_LISTINGS_DATA_',                     # Product
+	'flat_product_inventory': '_POST_FLAT_FILE_INVLOADER_DATA_',                    # Product
+	'flat_product_price_inv': '_POST_FLAT_FILE_PRICEANDQUANTITYONLY_UPDATE_DATA_',  # Product
+}
+
+#: Feed Methods. Maps FEED_TYPES to data-types
+FEED_METHODS = {
+	'offer':                  'xml',
+	'order_acknowledgement':  'xml',
+	'order_cancellation':     'xml',
+	'order_fulfillment':      'xml',
+	'product_data':           'xml',
+	'product_image':          'xml',
+	'product_inventory':      'xml',
+	'product_item':           'xml',
+	'product_override':       'xml',
+	'product_pricing':        'xml',
+	'product_relationship':   'xml',
+	'shipping_override':      'xml',
+	'webstore_item':          'xml',
+	'flat_book':              'flat-file',
+	'flat_book_uiee':         'flat-file',
+	'flat_product_converge':  'flat-file',
+	'flat_product_data':      'flat-file',
+	'flat_product_inventory': 'flat-file',
+	'flat_product_price_inv': 'flat-file',
+}
+
+#: Content types. Key is ENDPOINT aliased name. Maps FEED_TYPE, FEED_METHOD and ENTPOINT to content-type.
+CONTENT_TYPES = {
+	'ca': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
+	'cn': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=UTF-8',
+		# TODO: How should we account for two separate encodings belonging to a single ENDPOINT?
+		'flat-file-alt': 'text/tab-separated-values; charset=UTF-16',
+	},
+	'eu': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
+	'in': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1', # Guess, need to verify.
+	},
+	'jp': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=Shift_JIS',
+	},
+	'us': {
+		'xml': 'text/xml',
+		'flat-file': 'text/tab-separated-values; charset=iso-8859-1',
+	},
 }
 
 #: Processing statuses..
@@ -36,7 +102,7 @@ PROCESSING_STATUSES = {
 }
 
 
-class MWSFeeds(amazonmws.mws.MWS):
+class Feeds(amazonmws.mws.MWS):
 	"""
 	The ``MWSFeeds`` class is used to send requests to the Amazon MWS
 	Feeds API. The primary purpose of this class is to submit feeds to
@@ -66,7 +132,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		}
 		return args
 
-	def cancel_submissions(self, submissions=None, feed_types=None, from_date=None, to_date=None, all_submissions=None, debug=None):
+	def CancelFeedSubmissions(self, submissions=None, feed_types=None, from_date=None, to_date=None, all_submissions=None, debug=None):
 		"""
 		Requests all Feed Submissions that match the specified criteria to
 		be cancelled.
@@ -141,7 +207,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def count_submissions(self, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
+	def GetFeedSubmissionCount(self, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
 		"""
 		Requests a count of all Feed Submissions that match the specified
 		criteria.
@@ -184,7 +250,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def get_report(self, submission_id, debug=None):
+	def GetFeedSubmissionResult(self, submission_id, debug=None):
 		"""
 		Requests the Feed Processing Report.
 
@@ -192,11 +258,11 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(submission_id, basestring):
+		if not isinstance(submission_id, six.string_types):
 			raise TypeError("submission_id:{!r} is not a string.".format(submission_id))
 		elif not submission_id:
 			raise ValueError("submission_id:{!r} cannot be empty.".format(submission_id))
-		submission_id = submission_id.encode('ASCII')
+		#submission_id = submission_id.encode('ASCII') # TODO: Why are we encoding this? Causing Python 3 issues.
 
 		# Buils args.
 		args = self.new_args()
@@ -206,7 +272,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def list_submissions(self, submissions=None, count=None, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
+	def GetFeedSubmissionList(self, submissions=None, count=None, feed_types=None, statuses=None, from_date=None, to_date=None, debug=None):
 		"""
 		Requests for the list of Feed Submissions that match the specified
 		criteria.
@@ -259,7 +325,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 			args.update(submission_args(submissions, name='submissions'))
 
 		if count is not None:
-			if not isinstance(count, (int, long)):
+			if not isinstance(count, six.integer_types):
 				raise TypeError("count:{!r} is not an integer.".format(count))
 			elif count < 1 or 100 < count :
 				raise ValueError("count:{!r} is not between 1 and 100 inclusive.".format(count))
@@ -280,7 +346,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def list_submissions_next(self, next_token, debug=None):
+	def GetFeedSubmissionListByNextToken(self, next_token, debug=None):
 		"""
 		Requests the next batch of Feed Submissions being listed.
 
@@ -289,11 +355,11 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(next_token, basestring):
+		if not isinstance(next_token, six.string_types):
 			raise TypeError("next_token:{!r} is not a string.".format(next_token))
 		elif not next_token:
 			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))
-		next_token = next_token.encode('ASCII')
+		#next_token = next_token.encode('ASCII')
 
 		# Build args.
 		args = self.new_args()
@@ -303,7 +369,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 		# Send request.
 		return self.send_request(args, debug=debug)
 
-	def submit_feed(self, feed_type, data, content_type, marketplaces=None, debug=None):
+	def SubmitFeed(self, feed_type, data, content_type, marketplaces=None, debug=None):
 		"""
 		Submits the specified feed.
 
@@ -321,7 +387,7 @@ class MWSFeeds(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(feed_type, str):
+		if not isinstance(feed_type, six.string_types):
 			raise TypeError("feed_type:{!r} is not a str.".format(feed_type))
 		if data is None:
 			raise TypeError("data:{!r} is not a str or file.".format(data))
@@ -361,7 +427,7 @@ def feed_type_args(feed_types, name=None):
 	args = []
 	for i, feed_type in enumerate(feed_types):
 		feed_type = FEED_TYPES.get(feed_type, feed_type)
-		if not isinstance(feed_type, str):
+		if not isinstance(feed_type, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a str.".format(name, i, feed_type))
 		elif not feed_type:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, feed_type))
@@ -396,7 +462,7 @@ def status_args(statuses, name=None):
 	args = []
 	for i, status in enumerate(statuses):
 		status = PROCESSING_STATUSES.get(status, status)
-		if not isinstance(status, str):
+		if not isinstance(status, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a str.".format(name, i, status))
 		elif not status:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, status))
@@ -430,7 +496,7 @@ def submission_args(submissions, name=None):
 
 	args = []
 	for i, sub_id in enumerate(submissions):
-		if not isinstance(sub_id, basestring):
+		if not isinstance(sub_id, six.string_types):
 			raise TypeError("{}[{}]:{!r} is not a string.".format(name, i, sub_id))
 		elif not sub_id:
 			raise ValueError("{}[{}]:{!r} cannot be empty.".format(name, i, sub_id))

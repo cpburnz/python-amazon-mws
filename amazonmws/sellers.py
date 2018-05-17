@@ -3,11 +3,13 @@
 This module provides an implementation of the Amazon MWS Sellers API.
 """
 
+__author__ = "Caleb P. Burns"
 __created__ = "2012-12-03"
-__modified__ = "2013-03-28"
+__modified__ = "2016-03-29"
+__modified_by___ = "Joshua D. Burns"
 
+import six # Python2/Python3 compatibility library.
 import datetime
-
 import amazonmws.mws
 from amazonmws.util import datetime_to_iso8601
 
@@ -71,7 +73,7 @@ class MWSSellers(amazonmws.mws.MWS):
 
 		Returns the response XML (``str``).
 		"""
-		if not isinstance(next_token, str):
+		if not isinstance(next_token, six.string_types):
 			raise TypeError("next_token:{!r} is not a str.".format(next_token))
 		elif not next_token:
 			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))

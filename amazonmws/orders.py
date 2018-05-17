@@ -7,7 +7,6 @@ This module consists of the necessary information to construct requests in the O
 Calls include: ListOrders, ListOrdersByNextToken, GetOrder, ListOrderItems, ListOrderItems,
 ListOrderItemsByNextToken, and GetServiceStatus.
 
-
 Sample xml for a 'throttled' request:
 HTTP ERROR 503
 
@@ -22,16 +21,18 @@ HTTP ERROR 503
 </ErrorResponse>
 '''
 
-__date__ = "05/03/2012 10:04:37 AM"
+__author__ = "Caleb P. Burns"
 __created__ = "2012-05-03"
-__modified__ = "2013-03-28"
+__modified__ = "2016-03-29"
+__modified_by___ = "Joshua D. Burns"
 
-from amazonmws.mws import MWS#The MWS connection logic
+import six # Python2/Python3 compatibility library.
+from amazonmws.mws import MWS, MARKETPLACE_IDS # The MWS connection logic
 from amazonmws.util import datetime_to_iso8601, is_sequence
 import datetime
 import re
 
-#: Order statuses.
+#: Order statuses. DEPRECATED. Remove in version 2.0
 ORDER_STATUSES = {
 	'cancelled': 'Canceled', # Yes, it is "Canceled" here and not "Cancelled".
 	'invoice_unconfirmed': 'InvoiceUnconfirmed',
@@ -42,6 +43,7 @@ ORDER_STATUSES = {
 	'unshipped': 'Unshipped',
 }
 
+# DEPRECATED. Remove in version 2.0.
 class UnsupportedActionError(Exception):
 	'''
 	This exception is raised when an action is called
@@ -70,22 +72,22 @@ class Orders( MWS ):
 		  To tell what these args are, call Orders.new_args()
 
 	Example args dict:
-			for action 'ListOrders':
-				args = {
-					'CreatedAfter': '2012-05-03T15:00:13.000Z',
-					'OrderStatus': ['Unshipped', 'PartiallyShipped'],
-				}
+		for action 'ListOrders':
+			args = {
+				'CreatedAfter': '2012-05-03T15:00:13.000Z',
+				'OrderStatus': ['Unshipped', 'PartiallyShipped'],
+			}
 
-			for action 'ListOrdersByNextToken':
-				args = {
-					'NextToken': 'jaiphegaueipraaegrajklh',
-				}
+		for action 'ListOrdersByNextToken':
+			args = {
+				'NextToken': 'jaiphegaueipraaegrajklh',
+			}
 	'''
 	client_api_version = __modified__
-	mws_api_version = '2011-01-01'
-	path = '/Orders/2011-01-01' # The path to the server from the endpoint
+	mws_api_version = '2013-09-01'
+	path = '/Orders/2013-09-01' # The path to the server from the endpoint
 
-	supported_actions = ('ListOrders', 'ListOrdersByNextToken', 'GetOrder', 'ListOrderItems', 'ListOrderItemsByNextToken', 'GetServiceStatus')#A list of supported actions in the Orders API
+	supported_actions = ('ListOrders', 'ListOrdersByNextToken', 'GetOrder', 'ListOrderItems', 'ListOrderItemsByNextToken', 'GetServiceStatus') # A list of supported actions in the Orders API
 
 	def __init__(self, *args, **kwargs):
 		MWS.__init__(self, *args, **kwargs)
@@ -99,7 +101,8 @@ class Orders( MWS ):
 			'AWSAccessKeyId': self.access_key,
 			'SellerId': self.merchant_id,
 			'Timestamp': datetime_to_iso8601(datetime.datetime.utcnow()),
-			'Version': self.mws_api_version
+			'Version': self.mws_api_version,
+			'MarketplaceId': [ MARKETPLACE_IDS['us'], ]
 		}
 
 	def send_request(self, action, args_dict):
@@ -109,17 +112,12 @@ class Orders( MWS ):
 			action[str]: an Orders API supported action. UnsupportActionError is raises if this is an unknown action
 			args_dict[dict]: dictionary of arguments that follow the Orders API argument guidelines
 		"""
-		#Have to make the timestamp just before sending it out
 		args = self.new_args()
-
-		if action not in self.supported_actions:
-			raise UnsupportedActionError( "UnsupportedActionError! '%s' is not a supported action in the Orders API, supported actions are: %s"% (action, self.supported_actions) )
 		args['Action'] = action
-
 
 		query = self._combine_dicts( args, args_dict )
 		new_query = {}
-		for key, value in query.iteritems():
+		for key, value in six.iteritems(query):
 			self._update_query( new_query, key, value )
 
 		return MWS.send_request(self, new_query, path=self.path )
@@ -132,7 +130,7 @@ class Orders( MWS ):
 		a value, then the value in dict2 will overwrite it
 		'''
 		query = dict1
-		for key, value in dict2.iteritems():
+		for key, value in six.iteritems(dict2):
 			if key in query:
 				if isinstance( query[key], list ):
 					if isinstance( value, list ):
@@ -184,99 +182,65 @@ class Orders( MWS ):
 		basekey = key + "." + item + "."
 		return basekey
 
-	def list_orders(self, created_after=None, updated_after=None, order_statuses=None, marketplaces=None):
+	def __getattr__(self, api_call):
+		"""
+		This is a catch-all for automatic support of any future API call which
+		has not been explicitly accounted for in this library.
+		"""
+		def _call(*args, **kwargs):
+			# Grab default args.
+			args = self.new_args()
+
+			# Merge args passed to function w/ default args.
+			args.update(kwargs)
+			
+			return self.send_request(api_call, args)
+
+		return _call
+	
+	def ListOrders(self, **kwargs):
 		"""
 		Requests the list of Orders that match the specified criteria.
 
-		Either *created_after* or *updated_after* must be set, but not both.
-
-		*created_after* (``datetime.datetime`` or ``float``) is used to
-		select orders that were created at/after the specified date-time.
-
-		*updated_after* (``datetime.datetime`` or ``float``) is used to
-		select orders that were updated at/after the specified date-time.
-
-		The query can be further refined by specifying any of the following:
-
-		*order_statuses* (**sequence**) contains each Order Status (``str``)
-		to filter the list of orders to list. Default is ``None`` for all
-		Order Statuses.
-
-		.. SEEALSO:: ``ORDER_STATUSES``.
-
-		*marketplaces* (**sequence**) contains the ID (``str``) of each
-		Amazon Marketplace to list orders from. Default is ``None`` for all
-		Amazon Marketplaces.
-
 		Returns the response XML (``str``).
-		"""
-		if (created_after is None and updated_after is None) or (created_after is not None and updated_after is not None):
-			raise ValueError("Either created_after:{!r} or updated_after:{!r} must be set, but not both.".format(created_after, updated_after))
 
+		For a complete list of arguments and values:
+		http://docs.developer.amazonservices.com/en_US/orders/2013-09-01/Orders_ListOrders.html
+		"""
+		# Grab default args.
 		args = self.new_args()
 
-		if created_after is not None:
-			args['CreatedAfter'] = datetime_to_iso8601(created_after, name='created_after')
+		# Merge args passed to function w/ default args.
+		args.update(kwargs)
 
-		if updated_after is not None:
-			args['LastUpdatedAfter'] = datetime_to_iso8601(updated_after, name='updated_after')
+		# Ensure our dates are properly formatted.
+		if 'CreatedAfter' in kwargs and kwargs['CreatedAfter']:
+			args['CreatedAfter'] = datetime_to_iso8601(kwargs['CreatedAfter'], name='CreatedAfter')
 
-		if order_statuses is not None:
-			if not is_sequence(order_statuses):
-				raise TypeError("order_statuses:{!r} is not a sequence.".format(order_statuses))
-			elif not order_statuses:
-				raise ValueError("order_statuses:{!r} cannot be empty.".format(order_statuses))
-			amazon_statuses = []
-			for i, status in enumerate(order_statuses):
-				status = ORDER_STATUSES.get(status, status)
-				if not isinstance(status, basestring):
-					raise TypeError("order_statuses[{}]:{!r} is not a string.".format(i, status))
-				elif not status:
-					raise ValueError("order_statuses[{}]:{!r} cannot be empty.".format(i, status))
-				try:
-					status = status.encode('ASCII')
-				except UnicodeDecodeError as e:
-					e.reason += " for order_statuses[{}]".format(i)
-					e.args = e.args[:4] + (e.reason,)
-					raise e
-				amazon_statuses.append(status)
-			args['OrderStatus'] = amazon_statuses
+		if 'CreatedBefore' in kwargs and kwargs['CreatedBefore']:
+			args['CreatedBefore'] = datetime_to_iso8601(kwargs['CreatedBefore'], name='CreatedBefore')
 
-		if marketplaces is not None:
-			if not is_sequence(marketplaces):
-				raise TypeError("marketplaces:{!r} is not a sequence.".format(marketplaces))
-			elif not marketplaces:
-				raise ValueError("marketplaces:{!r} cannot be empty.".format(marketplaces))
-			for i, market in enumerate(marketplaces):
-				if not isinstance(market, basestring):
-					raise TypeError("marketplaces[{}]:{!r} is not a string.".format(i, market))
-				elif not market:
-					raise ValueError("marketplaces[{}]:{!r} cannot be empty.".format(i, market))
-				try:
-					market = market.encode('ASCII')
-				except UnicodeDecodeError as e:
-					e.reason += " for marketplaces[{}]".format(i)
-					e.args = e.args[:4] + (e.reason,)
-					raise e
-			args['MarketplaceId'] = marketplaces
+		if 'LastUpdatedAfter' in kwargs and kwargs['LastUpdatedAfter']:
+			args['LastUpdatedAfter'] = datetime_to_iso8601(kwargs['LastUpdatedAfter'], name='LastUpdatedAfter')
+
+		if 'LastUpdatedBefore' in kwargs and kwargs['LastUpdatedBefore']:
+			args['LastUpdatedBefore'] = datetime_to_iso8601(kwargs['LastUpdatedBefore'], name='LastUpdatedBefore')
 
 		return self.send_request('ListOrders', args)
 
-	def list_orders_next(self, next_token):
+	def ListOrdersByNextToken(self, **kwargs):
 		"""
 		Requests the next batch of Orders being listed.
 
-		*next_token* (``str``) is the token used to fetch the next batch of
-		results.
-
 		Returns the response XML (``str``).
-		"""
-		if not isinstance(next_token, str):
-			raise TypeError("next_token:{!r} is not a str.".format(next_token))
-		elif not next_token:
-			raise ValueError("next_token:{!r} cannot be empty.".format(next_token))
 
+		For a complete list of arguments and values:
+		http://docs.developer.amazonservices.com/en_US/orders/2013-09-01/Orders_ListOrdersByNextToken.html
+		"""
+		# Grab default args.
 		args = self.new_args()
-		args['NextToken'] = next_token
+
+		# Merge args passed to function w/ default args.
+		args.update(kwargs)
 
 		return self.send_request('ListOrdersByNextToken', args)
