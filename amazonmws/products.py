@@ -17,6 +17,7 @@ from amazonmws.util import datetime_to_iso8601, is_sequence
 #: Actions.
 ACTIONS = {
 	'list_matching': 'ListMatchingProducts',
+	'get_products': 'GetMatchingProduct',
 	'get_products_for_id': 'GetMatchingProductForId',
 	'get_competitive_pricing_for_sku': 'GetCompetitivePricingForSKU',
 	'get_competitive_pricing_for_asin': 'GetCompetitivePricingForASIN',
@@ -31,6 +32,7 @@ ACTIONS = {
 #: Maximum number of requests before being throttled.
 THROTTLE_MAX_REQUESTS = {
 	'list_matching': 20,
+	'get_products': 20,
 	'get_products_for_id': 20,
 	'get_competitive_pricing_for_sku': 20,
 	'get_competitive_pricing_for_asin': 20,
@@ -45,6 +47,7 @@ THROTTLE_MAX_REQUESTS = {
 #: The number of seconds it takes to restore 1 request from the quota.
 THROTTLE_RESTORE_RATES = {
 	'list_matching': 5,
+	'get_products': 1 / 2,
 	'get_products_for_id': 1 / 5,
 	'get_competitive_pricing_for_sku': 1 / 10,
 	'get_competitive_pricing_for_asin': 1 / 10,
@@ -321,7 +324,8 @@ class MWSProducts(amazonmws.mws.MWS):
 		types listed under ``ID_TYPES``.
 
 		*id_list* (**sequence**) contains the ID (``str``) of each product
-		to get. A maximum of 5 IDs can be requested at a single time.
+		to get. A maximum of 10 ASINs, or 5 IDs of another type can be
+		requested at a single time.
 
 		Returns the response XML (``str``).
 		"""
@@ -344,9 +348,13 @@ class MWSProducts(amazonmws.mws.MWS):
 			raise ValueError("id_list length:{} cannot be greater than 5.".format(len(id_list)))
 
 		args = self.new_args()
-		args['IdType'] = id_type
-		args['Action'] = ACTIONS['get_products_for_id']
-		args.update({'IDList.ID.{}'.format(i): id_ for i, id_ in enumerate(id_list, 1)})
+		if id_type == 'ASIN':
+			args['Action'] = ACTIONS['get_products']
+			args.update({'ASINList.ASIN.{}'.format(i): asin for i, asin in enumerate(id_list, 1)})
+		else:
+			args['IdType'] = id_type
+			args['Action'] = ACTIONS['get_products_for_id']
+			args.update({'IDList.ID.{}'.format(i): id_ for i, id_ in enumerate(id_list, 1)})
 
 		return self.send_request(args, path=self.path, debug=debug)
 
