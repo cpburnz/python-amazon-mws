@@ -17,9 +17,13 @@ setup(
 		"Operating System :: OS Independent",
 		"Programming Language :: Python :: 2",
 		"Programming Language :: Python :: 2.7",
+		"Programming Language :: Python :: 3",
 		"Topic :: Office/Business",
 		"Topic :: Software Development :: Libraries :: Python Modules"
 	],
 	license=__license__,
 	packages=find_packages(),
+	install_requires=[
+		"six"
+	],
 )
